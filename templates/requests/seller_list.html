@@ -1,0 +1,47 @@
+{% extends "layouts/account.html" %}
+{% load i18n %}
+{% block title %}{% trans "Incoming requests" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "Incoming requests" %}{% endblock %}
+
+{% block account_content %}
+<form method="get" class="panel mb-3 d-flex flex-wrap gap-2 align-items-end">
+  <div>
+    <label class="form-label" for="status">{% trans "Status" %}</label>
+    <select id="status" class="form-select" name="status">
+      <option value="">{% trans "All" %}</option>
+      {% for value, label in statuses %}<option value="{{ value }}" {% if value == status %}selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+  </div>
+  <button class="btn btn-outline-primary" type="submit">{% trans "Filter" %}</button>
+</form>
+
+{% if page_obj.object_list %}
+<div class="card table-card">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <caption class="visually-hidden">{% trans "Requests from customers" %}</caption>
+      <thead><tr><th scope="col">{% trans "Product" %}</th><th scope="col">{% trans "Customer" %}</th><th scope="col">{% trans "Qty" %}</th><th scope="col">{% trans "Status" %}</th><th scope="col">{% trans "Received" %}</th><th scope="col"></th></tr></thead>
+      <tbody>
+        {% for req in page_obj %}
+        <tr>
+          <td><a class="fw-semibold" href="{% url 'requests_app:seller_detail' req.pk %}">{{ req.product.name }}</a></td>
+          <td>{{ req.customer.display_name }}</td>
+          <td>{{ req.quantity }}</td>
+          <td>{% include "includes/status_badge.html" with value=req.status label=req.get_status_display %}</td>
+          <td class="text-nowrap">{{ req.created_at|date:"j M Y" }}</td>
+          <td class="text-end"><a class="btn btn-sm btn-outline-primary" href="{% url 'requests_app:seller_detail' req.pk %}">{% trans "Open" %}</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% include "includes/pagination.html" %}
+{% else %}
+<div class="card">
+  {% trans "No requests yet" as empty_title %}
+  {% trans "When customers send you a request about a product, it will appear here." as empty_text %}
+  {% include "includes/empty_state.html" with icon="bi-inbox" title=empty_title text=empty_text %}
+</div>
+{% endif %}
+{% endblock %}

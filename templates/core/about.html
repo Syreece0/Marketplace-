@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "About us" %} - {{ SITE_NAME }}{% endblock %}
+{% block meta_description %}{% trans "Learn how our marketplace connects customers with approved sellers." %}{% endblock %}
+
+{% block content %}
+<div class="container py-4" style="max-width: 820px;">
+  <nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="{% url 'core:home' %}">{% trans "Home" %}</a></li><li class="breadcrumb-item active" aria-current="page">{% trans "About us" %}</li></ol></nav>
+  <h1 class="mb-3">{% trans "About" %} {{ SITE_NAME }}</h1>
+  <div class="panel">
+    <p>{% blocktrans %}{{ SITE_NAME }} is an online marketplace that connects customers with independent sellers. Customers can browse, search, save favourites, send requests to sellers and order products. Sellers manage their own shop and listings. Administrators review sellers and listings so the marketplace stays trustworthy.{% endblocktrans %}</p>
+    <h2 class="h4 mt-4">{% trans "How we keep the marketplace safe" %}</h2>
+    <ul>
+      <li>{% trans "New sellers are reviewed and approved before they can list products." %}</li>
+      <li>{% trans "New and changed listings are checked before they appear publicly." %}</li>
+      <li>{% trans "Anyone can report a suspicious listing, and our team follows up." %}</li>
+    </ul>
+    <a class="btn btn-primary mt-2" href="{% url 'products:list' %}">{% trans "Browse the marketplace" %}</a>
+  </div>
+</div>
+{% endblock %}

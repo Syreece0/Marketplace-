@@ -1,0 +1,15 @@
+{% extends "layouts/account.html" %}
+{% load i18n %}
+{% block title %}{% trans "Edit profile" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "Edit profile" %}{% endblock %}
+
+{% block account_content %}
+<div class="panel" style="max-width: 620px;">
+  <form method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {% include "includes/form.html" %}
+    <button type="submit" class="btn btn-primary">{% trans "Save changes" %}</button>
+    <a class="btn btn-outline-secondary" href="{% url 'accounts:profile' %}">{% trans "Cancel" %}</a>
+  </form>
+</div>
+{% endblock %}

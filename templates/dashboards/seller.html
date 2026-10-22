@@ -1,0 +1,66 @@
+{% extends "layouts/account.html" %}
+{% load i18n core_extras %}
+{% block title %}{% trans "Seller dashboard" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{{ shop.shop_name }}{% endblock %}
+{% block page_actions %}
+  {% if shop.is_approved %}<a class="btn btn-primary" href="{% url 'products:create' %}"><i class="bi bi-plus-lg" aria-hidden="true"></i> {% trans "Add product" %}</a>{% endif %}
+{% endblock %}
+
+{% block account_content %}
+{% if shop.status == 'pending' %}
+  <div class="panel text-center py-5">
+    <i class="bi bi-hourglass-split" style="font-size:2.5rem;color:var(--tw-warning)" aria-hidden="true"></i>
+    <h2 class="h4 mt-3">{% trans "Your shop is waiting for approval" %}</h2>
+    <p class="text-muted mb-3" style="max-width:34rem;margin-inline:auto;">{% trans "An administrator reviews every new shop. You will get a notification as soon as it is approved, and then you can add products." %}</p>
+    <a class="btn btn-outline-primary" href="{% url 'accounts:shop_settings' %}">{% trans "Review your shop details" %}</a>
+  </div>
+{% elif shop.status == 'rejected' or shop.status == 'suspended' %}
+  <div class="alert alert-error" role="alert">
+    <h2 class="h5">{% if shop.status == 'rejected' %}{% trans "Your shop application was not approved" %}{% else %}{% trans "Your shop is suspended" %}{% endif %}</h2>
+    <p class="mb-2">{{ shop.status_note|default:_("Please contact support for more information.") }}</p>
+    <a class="btn btn-outline-primary btn-sm" href="{% url 'core:contact' %}">{% trans "Contact support" %}</a>
+  </div>
+{% else %}
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">{% url 'products:seller_list' as u %}{% trans "Products" as l %}{% include "includes/stat_card.html" with label=l value=product_counts.total icon="bi-box-seam" url=u %}</div>
+    <div class="col-6 col-md-3">{% url 'requests_app:seller_list' as u %}{% trans "Pending requests" as l %}{% include "includes/stat_card.html" with label=l value=pending_requests icon="bi-inbox" url=u %}</div>
+    <div class="col-6 col-md-3">{% url 'orders:seller_list' as u %}{% trans "To fulfil" as l %}{% include "includes/stat_card.html" with label=l value=orders_to_fulfil icon="bi-truck" url=u %}</div>
+    <div class="col-6 col-md-3">{% trans "Revenue (paid)" as l %}{% include "includes/stat_card.html" with label=l value=revenue|money icon="bi-cash-coin" %}</div>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-lg-6">
+      <div class="panel h-100">
+        <div class="section-title"><h2 class="h5 mb-0">{% trans "Listings needing attention" %}</h2><a href="{% url 'products:seller_list' %}">{% trans "All products" %}</a></div>
+        <p class="caption">{% blocktrans with p=product_counts.published pe=product_counts.pending r=product_counts.rejected %}{{ p }} published, {{ pe }} pending, {{ r }} rejected{% endblocktrans %}</p>
+        {% for product in attention %}
+        <div class="d-flex justify-content-between align-items-center py-2 border-bottom gap-2">
+          <a href="{% url 'products:edit' product.slug %}" class="text-truncate">{{ product.name }}</a>
+          {% include "includes/status_badge.html" with value=product.status label=product.get_status_display %}
+        </div>
+        {% empty %}<p class="text-muted mb-0">{% trans "All your listings are published." %}</p>{% endfor %}
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="panel mb-3">
+        <div class="section-title"><h2 class="h5 mb-0">{% trans "Latest requests" %}</h2><a href="{% url 'requests_app:seller_list' %}">{% trans "View all" %}</a></div>
+        {% for req in recent_requests %}
+        <div class="d-flex justify-content-between align-items-center py-2 border-bottom gap-2">
+          <a href="{% url 'requests_app:seller_detail' req.pk %}" class="text-truncate">{{ req.product.name }}</a>
+          {% include "includes/status_badge.html" with value=req.status label=req.get_status_display %}
+        </div>
+        {% empty %}<p class="text-muted mb-0">{% trans "No requests yet." %}</p>{% endfor %}
+      </div>
+      <div class="panel">
+        <div class="section-title"><h2 class="h5 mb-0">{% trans "Latest paid items" %}</h2><a href="{% url 'orders:seller_list' %}">{% trans "View all" %}</a></div>
+        {% for item in recent_items %}
+        <div class="d-flex justify-content-between align-items-center py-2 border-bottom gap-2">
+          <span class="text-truncate">{{ item.quantity }} &times; {{ item.product_name }}</span>
+          {% include "includes/status_badge.html" with value=item.fulfillment_status label=item.get_fulfillment_status_display %}
+        </div>
+        {% empty %}<p class="text-muted mb-0">{% trans "No paid orders yet." %}</p>{% endfor %}
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}

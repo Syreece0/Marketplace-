@@ -1,0 +1,49 @@
+{% extends "layouts/account.html" %}
+{% load i18n core_extras %}
+{% block title %}{% trans "Administrator dashboard" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "Marketplace overview" %}{% endblock %}
+{% block page_actions %}<a class="btn btn-outline-primary" href="{% url 'dashboard:statistics' %}"><i class="bi bi-bar-chart" aria-hidden="true"></i> {% trans "Statistics" %}</a>{% endblock %}
+
+{% block account_content %}
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">{% url 'dashboard:users' as u %}{% trans "Users" as l %}{% include "includes/stat_card.html" with label=l value=user_count icon="bi-people" url=u %}</div>
+  <div class="col-6 col-md-3">{% url 'dashboard:sellers' as u %}{% trans "Sellers pending" as l %}{% include "includes/stat_card.html" with label=l value=pending_sellers icon="bi-shop" url=u %}</div>
+  <div class="col-6 col-md-3">{% url 'dashboard:products' as u %}{% trans "Listings pending" as l %}{% include "includes/stat_card.html" with label=l value=pending_products icon="bi-box-seam" url=u %}</div>
+  <div class="col-6 col-md-3">{% url 'dashboard:reports' as u %}{% trans "Open reports" as l %}{% include "includes/stat_card.html" with label=l value=open_reports icon="bi-flag" url=u %}</div>
+  <div class="col-6 col-md-3">{% trans "Customers" as l %}{% include "includes/stat_card.html" with label=l value=customer_count icon="bi-person" %}</div>
+  <div class="col-6 col-md-3">{% trans "Shops" as l %}{% include "includes/stat_card.html" with label=l value=seller_count icon="bi-building" %}</div>
+  <div class="col-6 col-md-3">{% url 'dashboard:orders' as u %}{% trans "Orders" as l %}{% include "includes/stat_card.html" with label=l value=order_count icon="bi-receipt" url=u %}</div>
+  <div class="col-6 col-md-3">{% trans "Paid revenue" as l %}{% include "includes/stat_card.html" with label=l value=revenue|money icon="bi-cash-coin" %}</div>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-6">
+    <div class="panel h-100">
+      <div class="section-title"><h2 class="h5 mb-0">{% trans "Sellers awaiting approval" %}</h2><a href="{% url 'dashboard:sellers' %}?status=pending">{% trans "Review all" %}</a></div>
+      {% for seller in recent_sellers %}
+      <div class="d-flex justify-content-between align-items-center py-2 border-bottom gap-2"><span class="text-truncate">{{ seller.shop_name }} <span class="caption">({{ seller.user.email }})</span></span><span class="caption text-nowrap">{{ seller.created_at|date:"j M" }}</span></div>
+      {% empty %}<p class="text-muted mb-0">{% trans "Nothing waiting. Great!" %}</p>{% endfor %}
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="panel h-100">
+      <div class="section-title"><h2 class="h5 mb-0">{% trans "Listings awaiting approval" %}</h2><a href="{% url 'dashboard:products' %}?status=pending">{% trans "Review all" %}</a></div>
+      {% for product in recent_products %}
+      <div class="d-flex justify-content-between align-items-center py-2 border-bottom gap-2"><span class="text-truncate">{{ product.name }} <span class="caption">({{ product.seller.shop_name }})</span></span><span class="caption text-nowrap">{{ product.created_at|date:"j M" }}</span></div>
+      {% empty %}<p class="text-muted mb-0">{% trans "Nothing waiting. Great!" %}</p>{% endfor %}
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="panel">
+      <div class="section-title"><h2 class="h5 mb-0">{% trans "Latest orders" %}</h2><a href="{% url 'dashboard:orders' %}">{% trans "View all" %}</a></div>
+      {% for order in recent_orders %}
+      <div class="d-flex flex-wrap justify-content-between align-items-center py-2 border-bottom gap-2">
+        <a href="{% url 'dashboard:order_detail' order.pk %}" class="fw-semibold">{{ order.reference }}</a>
+        <span>{{ order.customer.display_name }}</span><span>{{ order.total_amount|money }}</span>
+        {% include "includes/status_badge.html" with value=order.status label=order.get_status_display %}
+      </div>
+      {% empty %}<p class="text-muted mb-0">{% trans "No orders yet." %}</p>{% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

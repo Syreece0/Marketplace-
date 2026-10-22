@@ -1,0 +1,7 @@
+{% comment %}Usage: {% include "includes/empty_state.html" with icon="bi-bag" title="..." text="..." url=... action="..." %}{% endcomment %}
+<div class="empty-state">
+  <i class="bi {{ icon|default:'bi-inbox' }} empty-icon" aria-hidden="true"></i>
+  <h2 class="h5 mt-3">{{ title }}</h2>
+  {% if text %}<p class="text-muted mb-3">{{ text }}</p>{% endif %}
+  {% if url and action %}<a class="btn btn-primary" href="{{ url }}">{{ action }}</a>{% endif %}
+</div>

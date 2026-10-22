@@ -1,0 +1,16 @@
+{% extends "layouts/account.html" %}
+{% load i18n %}
+{% block title %}{% trans "Send a request" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "Send a request" %}{% endblock %}
+
+{% block account_content %}
+<div class="panel" style="max-width: 620px;">
+  <p>{% blocktrans with name=product.name shop=product.seller.shop_name %}You are asking <strong>{{ shop }}</strong> about <strong>{{ name }}</strong>.{% endblocktrans %}</p>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include "includes/form.html" %}
+    <button type="submit" class="btn btn-primary">{% trans "Send request" %}</button>
+    <a class="btn btn-outline-secondary" href="{{ product.get_absolute_url }}">{% trans "Cancel" %}</a>
+  </form>
+</div>
+{% endblock %}

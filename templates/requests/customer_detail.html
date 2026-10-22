@@ -1,0 +1,35 @@
+{% extends "layouts/account.html" %}
+{% load i18n %}
+{% block title %}{% trans "Request details" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% blocktrans with n=req.pk %}Request #{{ n }}{% endblocktrans %}{% endblock %}
+{% block page_actions %}<a class="btn btn-outline-secondary" href="{% url 'requests_app:customer_list' %}">{% trans "All requests" %}</a>{% endblock %}
+
+{% block account_content %}
+<div class="panel" style="max-width: 760px;">
+  <div class="d-flex flex-wrap justify-content-between gap-2 mb-3">
+    <div>
+      <div class="caption">{% trans "Product" %}</div>
+      <a class="h5" href="{{ req.product.get_absolute_url }}">{{ req.product.name }}</a>
+    </div>
+    {% include "includes/status_badge.html" with value=req.status label=req.get_status_display %}
+  </div>
+  <dl class="row">
+    <dt class="col-sm-3">{% trans "Seller" %}</dt><dd class="col-sm-9">{{ req.seller.shop_name }}</dd>
+    <dt class="col-sm-3">{% trans "Quantity" %}</dt><dd class="col-sm-9">{{ req.quantity }}</dd>
+    <dt class="col-sm-3">{% trans "Sent" %}</dt><dd class="col-sm-9">{{ req.created_at|date:"j M Y, H:i" }}</dd>
+    <dt class="col-sm-3">{% trans "Your message" %}</dt><dd class="col-sm-9" style="white-space: pre-line;">{{ req.message|default:"-" }}</dd>
+    <dt class="col-sm-3">{% trans "Seller reply" %}</dt><dd class="col-sm-9" style="white-space: pre-line;">{{ req.seller_response|default:"-" }}</dd>
+  </dl>
+  {% if req.status == 'pending' or req.status == 'accepted' %}
+  <form method="post" action="{% url 'requests_app:customer_cancel' req.pk %}" data-confirm="{% trans 'Cancel this request?' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-outline-danger">{% trans "Cancel request" %}</button>
+  </form>
+  {% endif %}
+  {% if req.status == 'accepted' and req.product.is_purchasable %}
+  <hr>
+  <p class="mb-2">{% trans "The seller accepted your request. You can buy the item now:" %}</p>
+  <a class="btn btn-primary" href="{{ req.product.get_absolute_url }}">{% trans "Go to product" %}</a>
+  {% endif %}
+</div>
+{% endblock %}

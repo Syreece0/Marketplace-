@@ -1,0 +1,44 @@
+{% extends "layouts/account.html" %}
+{% load i18n %}
+{% block title %}{% trans "Categories" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "Categories" %}{% endblock %}
+
+{% block account_content %}
+<div class="row g-3">
+  <div class="col-lg-7">
+    <div class="card table-card">
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <caption class="visually-hidden">{% trans "Product categories" %}</caption>
+          <thead><tr><th scope="col">{% trans "Name" %}</th><th scope="col">{% trans "Products" %}</th><th scope="col">{% trans "Status" %}</th><th scope="col"></th></tr></thead>
+          <tbody>
+            {% for category in categories %}
+            <tr>
+              <td class="fw-semibold">{{ category.name }}</td>
+              <td>{{ category.product_total }}</td>
+              <td>{% if category.is_active %}{% include "includes/status_badge.html" with value="active" label=_("Active") %}{% else %}{% include "includes/status_badge.html" with value="hidden" label=_("Hidden") %}{% endif %}</td>
+              <td class="text-end text-nowrap">
+                <a class="btn btn-sm btn-outline-primary" href="{% url 'dashboard:category_edit' category.pk %}">{% trans "Edit" %}</a>
+                <form method="post" action="{% url 'dashboard:category_toggle' category.pk %}" class="d-inline">
+                  {% csrf_token %}<button class="btn btn-sm btn-outline-secondary" type="submit">{% if category.is_active %}{% trans "Hide" %}{% else %}{% trans "Show" %}{% endif %}</button>
+                </form>
+              </td>
+            </tr>
+            {% empty %}<tr><td colspan="4" class="text-center text-muted py-4">{% trans "No categories yet. Add the first one." %}</td></tr>{% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="panel">
+      <h2 class="h5">{% trans "Add a category" %}</h2>
+      <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        {% include "includes/form.html" %}
+        <button class="btn btn-primary" type="submit">{% trans "Add category" %}</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

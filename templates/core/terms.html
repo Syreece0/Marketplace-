@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Terms and conditions" %} - {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container py-4" style="max-width: 820px;">
+  <h1 class="mb-3">{% trans "Terms and conditions" %}</h1>
+  <div class="panel">
+    <p class="text-muted small">{% trans "Template text: have these terms reviewed by a qualified professional and adapt them to your business before launch." %}</p>
+    <h2 class="h5">{% trans "1. Using the marketplace" %}</h2>
+    <p>{% trans "You must provide accurate information when you register and keep your login details private. You are responsible for activity on your account." %}</p>
+    <h2 class="h5">{% trans "2. Buyers" %}</h2>
+    <p>{% trans "Orders are confirmed once payment succeeds. Product details are provided by sellers; please read listings carefully and contact the seller with questions before buying." %}</p>
+    <h2 class="h5">{% trans "3. Sellers" %}</h2>
+    <p>{% trans "Sellers must be approved before listing products. Listings must be accurate, lawful and must not infringe anyone's rights. We may reject, remove or suspend listings and shops that break these terms." %}</p>
+    <h2 class="h5">{% trans "4. Prohibited behaviour" %}</h2>
+    <p>{% trans "Fraud, counterfeit goods, harassment and attempts to bypass security are not allowed and may result in account suspension." %}</p>
+    <h2 class="h5">{% trans "5. Changes" %}</h2>
+    <p class="mb-0">{% trans "We may update these terms. Continued use of the marketplace means you accept the updated terms." %}</p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% load i18n %}
+<footer class="site-footer">
+  <div class="container py-5">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <p class="h4 text-white mb-2">{{ SITE_NAME }}<span style="color:var(--tw-accent)">.</span></p>
+        <p class="small mb-0">{% trans "A marketplace connecting customers with trusted sellers. Every shop and listing is reviewed before it goes live." %}</p>
+      </div>
+      <div class="col-6 col-lg-2 offset-lg-2">
+        <h2>{% trans "Shop" %}</h2>
+        <ul class="list-unstyled small mb-0">
+          <li><a href="{% url 'products:list' %}">{% trans "Marketplace" %}</a></li>
+          <li><a href="{% url 'accounts:register' %}">{% trans "Create an account" %}</a></li>
+          <li><a href="{% url 'accounts:register_seller' %}">{% trans "Become a seller" %}</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h2>{% trans "Company" %}</h2>
+        <ul class="list-unstyled small mb-0">
+          <li><a href="{% url 'core:about' %}">{% trans "About us" %}</a></li>
+          <li><a href="{% url 'core:contact' %}">{% trans "Contact" %}</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h2>{% trans "Legal" %}</h2>
+        <ul class="list-unstyled small mb-0">
+          <li><a href="{% url 'core:terms' %}">{% trans "Terms and conditions" %}</a></li>
+          <li><a href="{% url 'core:privacy' %}">{% trans "Privacy policy" %}</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="border-secondary my-4">
+    <p class="small mb-0">&copy; {% now "Y" %} {{ SITE_NAME }}. {% trans "All rights reserved." %}</p>
+  </div>
+</footer>

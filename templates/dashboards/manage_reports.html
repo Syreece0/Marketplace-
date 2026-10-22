@@ -1,0 +1,39 @@
+{% extends "layouts/account.html" %}
+{% load i18n %}
+{% block title %}{% trans "Reports" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "Reported listings" %}{% endblock %}
+
+{% block account_content %}
+<form method="get" class="panel mb-3 d-flex flex-wrap gap-2 align-items-end">
+  <div><label class="form-label" for="status">{% trans "Status" %}</label>
+    <select id="status" name="status" class="form-select"><option value="">{% trans "All" %}</option>{% for value, label in statuses %}<option value="{{ value }}" {% if value == status %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+  <button class="btn btn-outline-primary" type="submit">{% trans "Filter" %}</button>
+</form>
+
+{% for report in page_obj %}
+<article class="panel mb-3">
+  <div class="d-flex flex-wrap justify-content-between gap-2">
+    <div>
+      <h2 class="h6 mb-1">{% if report.product %}<a href="{% url 'dashboard:products' %}?q={{ report.product.name|urlencode }}">{{ report.product.name }}</a>{% else %}{% trans "(listing deleted)" %}{% endif %}</h2>
+      <div class="caption">{% blocktrans with who=report.reporter.display_name when=report.created_at|date:"j M Y" %}Reported by {{ who }} on {{ when }}{% endblocktrans %}</div>
+    </div>
+    {% include "includes/status_badge.html" with value=report.status label=report.get_status_display %}
+  </div>
+  <p class="mt-2 mb-1"><strong>{{ report.get_reason_display }}</strong></p>
+  {% if report.details %}<p class="mb-2" style="white-space: pre-line;">{{ report.details }}</p>{% endif %}
+  <form method="post" action="{% url 'dashboard:report_update' report.pk %}" class="row g-2 align-items-end">
+    {% csrf_token %}
+    <div class="col-md-3">{% include "includes/form_field.html" with field=report.update_form.status %}</div>
+    <div class="col-md-7">{% include "includes/form_field.html" with field=report.update_form.admin_notes %}</div>
+    <div class="col-md-2 mb-3"><button class="btn btn-primary w-100" type="submit">{% trans "Save" %}</button></div>
+  </form>
+</article>
+{% empty %}
+<div class="card">
+  {% trans "No reports" as empty_title %}
+  {% trans "Nothing has been reported. Great!" as empty_text %}
+  {% include "includes/empty_state.html" with icon="bi-flag" title=empty_title text=empty_text %}
+</div>
+{% endfor %}
+{% include "includes/pagination.html" %}
+{% endblock %}

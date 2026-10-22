@@ -1,0 +1,40 @@
+{% extends "layouts/account.html" %}
+{% load i18n %}
+{% block title %}{% trans "Notifications" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "Notifications" %}{% endblock %}
+{% block page_actions %}
+  {% if unread_notifications %}
+  <form method="post" action="{% url 'notifications:mark_all_read' %}">
+    {% csrf_token %}<button type="submit" class="btn btn-outline-primary">{% trans "Mark all as read" %}</button>
+  </form>
+  {% endif %}
+{% endblock %}
+
+{% block account_content %}
+{% if page_obj.object_list %}
+<div class="card">
+  <ul class="list-group list-group-flush">
+    {% for notification in page_obj %}
+    <li class="list-group-item notification-item {% if not notification.is_read %}unread{% endif %} d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <div class="min-w-0">
+        {% if notification.url %}<a href="{{ notification.url }}">{{ notification.message }}</a>{% else %}{{ notification.message }}{% endif %}
+        <div class="caption">{{ notification.created_at|timesince }} {% trans "ago" %}{% if not notification.is_read %} &middot; <span class="fw-semibold">{% trans "New" %}</span>{% endif %}</div>
+      </div>
+      {% if not notification.is_read %}
+      <form method="post" action="{% url 'notifications:mark_read' notification.pk %}">
+        {% csrf_token %}<button type="submit" class="btn btn-sm btn-outline-secondary">{% trans "Mark as read" %}</button>
+      </form>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% include "includes/pagination.html" %}
+{% else %}
+<div class="card">
+  {% trans "No notifications" as empty_title %}
+  {% trans "You are all caught up. Updates about your orders and requests will show up here." as empty_text %}
+  {% include "includes/empty_state.html" with icon="bi-bell" title=empty_title text=empty_text %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,8 @@
+{% load i18n %}
+<a class="nav-link {% if current == 'dashboard:customer' %}active{% endif %}" href="{% url 'dashboard:customer' %}"><i class="bi bi-speedometer2" aria-hidden="true"></i> {% trans "Dashboard" %}</a>
+<a class="nav-link {% if current == 'wishlist:list' %}active{% endif %}" href="{% url 'wishlist:list' %}"><i class="bi bi-heart" aria-hidden="true"></i> {% trans "Wishlist" %}</a>
+<a class="nav-link {% if current == 'orders:cart' or current == 'orders:checkout' %}active{% endif %}" href="{% url 'orders:cart' %}"><i class="bi bi-bag" aria-hidden="true"></i> {% trans "Shopping cart" %}</a>
+<a class="nav-link {% if current == 'orders:list' or current == 'orders:detail' %}active{% endif %}" href="{% url 'orders:list' %}"><i class="bi bi-receipt" aria-hidden="true"></i> {% trans "My orders" %}</a>
+<a class="nav-link {% if current == 'requests_app:customer_list' or current == 'requests_app:customer_detail' %}active{% endif %}" href="{% url 'requests_app:customer_list' %}"><i class="bi bi-chat-left-text" aria-hidden="true"></i> {% trans "My requests" %}</a>
+<a class="nav-link {% if current == 'notifications:list' %}active{% endif %}" href="{% url 'notifications:list' %}"><i class="bi bi-bell" aria-hidden="true"></i> {% trans "Notifications" %}</a>
+<a class="nav-link {% if current == 'accounts:profile' or current == 'accounts:profile_edit' or current == 'accounts:password_change' %}active{% endif %}" href="{% url 'accounts:profile' %}"><i class="bi bi-person" aria-hidden="true"></i> {% trans "Profile" %}</a>

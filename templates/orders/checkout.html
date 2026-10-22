@@ -1,0 +1,37 @@
+{% extends "layouts/account.html" %}
+{% load i18n core_extras %}
+{% block title %}{% trans "Checkout" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "Checkout" %}{% endblock %}
+
+{% block account_content %}
+<div class="row g-3">
+  <div class="col-lg-7">
+    <div class="panel">
+      <h2 class="h5 mb-3">{% trans "Delivery details" %}</h2>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {% include "includes/form.html" %}
+        {% if PAYMENT_IS_TEST %}
+        <div class="test-banner mb-3"><i class="bi bi-info-circle" aria-hidden="true"></i> {% trans "Test mode: you will complete a simulated payment on the next page. No real money is charged." %}</div>
+        {% endif %}
+        <button type="submit" class="btn btn-primary">{% trans "Place order" %}</button>
+        <a class="btn btn-outline-secondary" href="{% url 'orders:cart' %}">{% trans "Back to cart" %}</a>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="panel">
+      <h2 class="h5">{% trans "Your items" %}</h2>
+      <ul class="list-unstyled mb-3">
+        {% for item in items %}
+        <li class="d-flex justify-content-between gap-2 py-2 border-bottom">
+          <span class="min-w-0 text-truncate">{{ item.quantity }} &times; {{ item.product.name }}</span>
+          <span class="text-nowrap">{{ item.line_total|money }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+      <div class="d-flex justify-content-between"><strong>{% trans "Total" %}</strong><span class="price fs-5">{{ total|money }}</span></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "layouts/account.html" %}
+{% load i18n %}
+{% block title %}{% trans "Edit category" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% blocktrans with name=category.name %}Edit category: {{ name }}{% endblocktrans %}{% endblock %}
+
+{% block account_content %}
+<div class="panel" style="max-width: 560px;">
+  <form method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {% include "includes/form.html" %}
+    <button class="btn btn-primary" type="submit">{% trans "Save changes" %}</button>
+    <a class="btn btn-outline-secondary" href="{% url 'dashboard:categories' %}">{% trans "Cancel" %}</a>
+  </form>
+</div>
+{% endblock %}

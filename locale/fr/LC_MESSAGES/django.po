@@ -1,0 +1,1934 @@
+# French translation for the Tradewind marketplace.
+# Covers the interface text. Run "python scripts/compile_messages.py" after editing.
+msgid ""
+msgstr ""
+"Project-Id-Version: Tradewind marketplace\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#, python-format
+msgid "\"%(name)s\" is no longer available. Please update your cart."
+msgstr "« %(name)s » n'est plus disponible. Veuillez mettre à jour votre panier."
+
+#, python-format
+msgid "\"%(name)s\" just sold out. Please update your cart."
+msgstr "« %(name)s » vient d'être épuisé. Veuillez mettre à jour votre panier."
+
+#, python-format
+msgid "\"%(name)s\" was added to your cart."
+msgstr "« %(name)s » a été ajouté à votre panier."
+
+#, python-format
+msgid "\"%(name)s\" was deleted."
+msgstr "« %(name)s » a été supprimé."
+
+#, python-format
+msgid "%(SITE_NAME)s is an online marketplace that connects customers with independent sellers. Customers can browse, search, save favourites, send requests to sellers and order products. Sellers manage their own shop and listings. Administrators review sellers and listings so the marketplace stays trustworthy."
+msgstr "%(SITE_NAME)s est une place de marché en ligne qui met en relation des clients et des vendeurs indépendants. Les clients peuvent parcourir, rechercher, enregistrer leurs favoris, envoyer des demandes aux vendeurs et commander des produits. Les vendeurs gèrent leur propre boutique et leurs annonces. Les administrateurs examinent les vendeurs et les annonces afin que la place de marché reste digne de confiance."
+
+#, python-format
+msgid "%(n)s available"
+msgstr "%(n)s disponible(s)"
+
+#, python-format
+msgid "%(n)s in stock"
+msgstr "%(n)s en stock"
+
+#, python-format
+msgid "%(n)s out of 5 stars"
+msgstr "%(n)s étoiles sur 5"
+
+#, python-format
+msgid "%(name)s logo"
+msgstr "Logo de %(name)s"
+
+#, python-format
+msgid "%(p)s published, %(pe)s pending, %(r)s rejected"
+msgstr "%(p)s publiées, %(pe)s en attente, %(r)s refusées"
+
+msgid "(listing deleted)"
+msgstr "(annonce supprimée)"
+
+msgid "1. Discover"
+msgstr "1. Découvrez"
+
+msgid "1. Using the marketplace"
+msgstr "1. Utilisation de la place de marché"
+
+msgid "2. Ask or buy"
+msgstr "2. Demandez ou achetez"
+
+msgid "2. Buyers"
+msgstr "2. Acheteurs"
+
+msgid "3. Sellers"
+msgstr "3. Vendeurs"
+
+msgid "3. Track"
+msgstr "3. Suivez"
+
+msgid "4. Prohibited behaviour"
+msgstr "4. Comportements interdits"
+
+msgid "5. Changes"
+msgstr "5. Modifications"
+
+msgid "A marketplace connecting customers with trusted sellers. Every shop and listing is reviewed before it goes live."
+msgstr "Une place de marché qui met en relation les clients et des vendeurs de confiance. Chaque boutique et chaque annonce est vérifiée avant sa mise en ligne."
+
+#, python-format
+msgid "A product can have at most %(n)s additional images."
+msgstr "Un produit peut avoir au maximum %(n)s images supplémentaires."
+
+#, python-format
+msgid "A request for \"%(product)s\" was cancelled by the customer."
+msgstr "Une demande pour « %(product)s » a été annulée par le client."
+
+msgid "About"
+msgstr "À propos"
+
+msgid "About us"
+msgstr "À propos de nous"
+
+msgid "Accept request"
+msgstr "Accepter la demande"
+
+msgid "Accepted"
+msgstr "Acceptée"
+
+msgid "Access denied"
+msgstr "Accès refusé"
+
+msgid "Account"
+msgstr "Compte"
+
+msgid "Account activated."
+msgstr "Compte activé."
+
+msgid "Account deactivated."
+msgstr "Compte désactivé."
+
+msgid "Account details (name, email, phone number), delivery details you enter at checkout, your orders and requests, and technical data needed to keep the site secure."
+msgstr "Les informations de votre compte (nom, e-mail, numéro de téléphone), les informations de livraison saisies lors du paiement, vos commandes et demandes, ainsi que les données techniques nécessaires à la sécurité du site."
+
+msgid "Account menu"
+msgstr "Menu du compte"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Activate"
+msgstr "Activer"
+
+msgid "Active"
+msgstr "Actif"
+
+msgid "Activity"
+msgstr "Activité"
+
+msgid "Add a category"
+msgstr "Ajouter une catégorie"
+
+msgid "Add a product"
+msgstr "Ajouter un produit"
+
+msgid "Add category"
+msgstr "Ajouter la catégorie"
+
+msgid "Add image"
+msgstr "Ajouter l'image"
+
+msgid "Add product"
+msgstr "Ajouter un produit"
+
+msgid "Add products to your cart and they will appear here."
+msgstr "Ajoutez des produits à votre panier et ils apparaîtront ici."
+
+msgid "Add to cart"
+msgstr "Ajouter au panier"
+
+msgid "Add your first product. It will be reviewed by an administrator before it goes live."
+msgstr "Ajoutez votre premier produit. Il sera vérifié par un administrateur avant sa mise en ligne."
+
+msgid "Additional images"
+msgstr "Images supplémentaires"
+
+msgid "Administrator"
+msgstr "Administrateur"
+
+msgid "Administrator dashboard"
+msgstr "Tableau de bord administrateur"
+
+msgid "After registering you can sign in straight away, but you can only add products once your shop is approved."
+msgstr "Après votre inscription, vous pouvez vous connecter immédiatement, mais vous ne pourrez ajouter des produits qu'une fois votre boutique approuvée."
+
+msgid "All"
+msgstr "Tous"
+
+msgid "All categories"
+msgstr "Toutes les catégories"
+
+msgid "All notifications marked as read."
+msgstr "Toutes les notifications ont été marquées comme lues."
+
+msgid "All orders"
+msgstr "Toutes les commandes"
+
+msgid "All product requests"
+msgstr "Toutes les demandes de produits"
+
+msgid "All products"
+msgstr "Tous les produits"
+
+msgid "All requests"
+msgstr "Toutes les demandes"
+
+msgid "All reviews"
+msgstr "Tous les avis"
+
+msgid "All rights reserved."
+msgstr "Tous droits réservés."
+
+msgid "All roles"
+msgstr "Tous les rôles"
+
+msgid "All statuses"
+msgstr "Tous les statuts"
+
+msgid "All time"
+msgstr "Depuis le début"
+
+msgid "All user accounts"
+msgstr "Tous les comptes utilisateurs"
+
+msgid "All your listings are published."
+msgstr "Toutes vos annonces sont publiées."
+
+msgid "Already have an account?"
+msgstr "Vous avez déjà un compte ?"
+
+msgid "Already registered?"
+msgstr "Déjà inscrit ?"
+
+msgid "An account with this email address already exists."
+msgstr "Un compte avec cette adresse e-mail existe déjà."
+
+msgid "An administrator reviews every new shop. You will get a notification as soon as it is approved, and then you can add products."
+msgstr "Un administrateur examine chaque nouvelle boutique. Vous recevrez une notification dès son approbation, et vous pourrez alors ajouter des produits."
+
+msgid "An administrator will review this listing soon. It is not public yet."
+msgstr "Un administrateur examinera bientôt cette annonce. Elle n'est pas encore publique."
+
+msgid "An item"
+msgstr "Un article"
+
+msgid "Any condition"
+msgstr "Tout état"
+
+msgid "Anyone can report a suspicious listing, and our team follows up."
+msgstr "Chacun peut signaler une annonce suspecte, et notre équipe y donne suite."
+
+msgid "Apply"
+msgstr "Appliquer"
+
+msgid "Apply filters"
+msgstr "Appliquer les filtres"
+
+msgid "Approval"
+msgstr "Approbation"
+
+msgid "Approval status:"
+msgstr "Statut d'approbation :"
+
+msgid "Approved"
+msgstr "Approuvée"
+
+msgid "Approved sellers are adding listings. Check back soon, or open your own shop."
+msgstr "Des vendeurs approuvés ajoutent des annonces. Revenez bientôt, ou ouvrez votre propre boutique."
+
+msgid "Approved shops"
+msgstr "Boutiques approuvées"
+
+msgid "Are you sure?"
+msgstr "Êtes-vous sûr ?"
+
+msgid "Ask about availability, delivery or anything else. The seller will reply through your requests page."
+msgstr "Posez vos questions sur la disponibilité, la livraison ou autre chose. Le vendeur répondra via votre page de demandes."
+
+msgid "Ask the seller anything about this item..."
+msgstr "Posez au vendeur vos questions sur cet article..."
+
+msgid "Availability"
+msgstr "Disponibilité"
+
+msgid "Available"
+msgstr "Disponible"
+
+msgid "Awaiting payment"
+msgstr "En attente de paiement"
+
+msgid "Back to cart"
+msgstr "Retour au panier"
+
+msgid "Back to home"
+msgstr "Retour à l'accueil"
+
+msgid "Back to my products"
+msgstr "Retour à mes produits"
+
+msgid "Back to sign in"
+msgstr "Retour à la connexion"
+
+msgid "Become a seller"
+msgstr "Devenir vendeur"
+
+#, python-format
+msgid "Browse %(name)s from approved sellers."
+msgstr "Parcourez %(name)s auprès de vendeurs approuvés."
+
+msgid "Browse products"
+msgstr "Parcourir les produits"
+
+msgid "Browse the marketplace"
+msgstr "Parcourir la place de marché"
+
+msgid "Buy and sell with trusted shops"
+msgstr "Achetez et vendez avec des boutiques de confiance"
+
+msgid "Buy and sell with trusted shops on Tradewind, an online marketplace connecting customers and sellers."
+msgstr "Achetez et vendez avec des boutiques de confiance sur Tradewind, une place de marché en ligne qui relie clients et vendeurs."
+
+#, python-format
+msgid "By creating an account you agree to our <a href=\"%(terms_url)s\">terms</a>."
+msgstr "En créant un compte, vous acceptez nos <a href=\"%(terms_url)s\">conditions</a>."
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Cancel order"
+msgstr "Annuler la commande"
+
+msgid "Cancel request"
+msgstr "Annuler la demande"
+
+msgid "Cancel this order? The items will be released."
+msgstr "Annuler cette commande ? Les articles seront libérés."
+
+msgid "Cancel this request?"
+msgstr "Annuler cette demande ?"
+
+msgid "Cancelled"
+msgstr "Annulée"
+
+msgid "Catalogue"
+msgstr "Catalogue"
+
+msgid "Categories"
+msgstr "Catégories"
+
+msgid "Category"
+msgstr "Catégorie"
+
+msgid "Category activated."
+msgstr "Catégorie activée."
+
+msgid "Category created."
+msgstr "Catégorie créée."
+
+msgid "Category hidden from the marketplace."
+msgstr "Catégorie masquée de la place de marché."
+
+msgid "Category updated."
+msgstr "Catégorie mise à jour."
+
+msgid "Change password"
+msgstr "Changer le mot de passe"
+
+msgid "Change status"
+msgstr "Changer le statut"
+
+msgid "Check back soon."
+msgstr "Revenez bientôt."
+
+msgid "Check your email"
+msgstr "Consultez votre messagerie"
+
+msgid "Checkout"
+msgstr "Paiement"
+
+msgid "Choose a new password"
+msgstr "Choisissez un nouveau mot de passe"
+
+msgid "City"
+msgstr "Ville"
+
+msgid "Clear all"
+msgstr "Tout effacer"
+
+msgid "Close"
+msgstr "Fermer"
+
+msgid "Comment"
+msgstr "Commentaire"
+
+msgid "Company"
+msgstr "Entreprise"
+
+msgid "Completed"
+msgstr "Terminée"
+
+msgid "Condition"
+msgstr "État"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Contact support"
+msgstr "Contacter l'assistance"
+
+msgid "Contact us"
+msgstr "Nous contacter"
+
+msgid "Continue shopping"
+msgstr "Continuer vos achats"
+
+msgid "Could not update the report."
+msgstr "Impossible de mettre à jour le signalement."
+
+msgid "Counterfeit item"
+msgstr "Article contrefait"
+
+msgid "Create a customer account"
+msgstr "Créer un compte client"
+
+msgid "Create account"
+msgstr "Créer un compte"
+
+msgid "Create an account"
+msgstr "Créer un compte"
+
+msgid "Create seller account"
+msgstr "Créer un compte vendeur"
+
+msgid "Create your account"
+msgstr "Créez votre compte"
+
+msgid "Create your shop. An administrator reviews every new shop before it can list products."
+msgstr "Créez votre boutique. Un administrateur examine chaque nouvelle boutique avant qu'elle puisse publier des produits."
+
+msgid "Current main image:"
+msgstr "Image principale actuelle :"
+
+msgid "Customer"
+msgstr "Client"
+
+msgid "Customer reviews"
+msgstr "Avis des clients"
+
+msgid "Customers"
+msgstr "Clients"
+
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+msgid "Dashboard navigation"
+msgstr "Navigation du tableau de bord"
+
+msgid "Deactivate"
+msgstr "Désactiver"
+
+msgid "Deactivate this account? The user will no longer be able to sign in."
+msgstr "Désactiver ce compte ? L'utilisateur ne pourra plus se connecter."
+
+msgid "Deactivated"
+msgstr "Désactivé"
+
+msgid "Decline"
+msgstr "Refuser"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+#, python-format
+msgid "Delete &quot;%(name)s&quot;? This cannot be undone."
+msgstr "Supprimer « %(name)s » ? Cette action est irréversible."
+
+msgid "Deliver to"
+msgstr "Livrer à"
+
+msgid "Delivered"
+msgstr "Livrée"
+
+msgid "Delivery"
+msgstr "Livraison"
+
+msgid "Delivery address"
+msgstr "Adresse de livraison"
+
+msgid "Delivery details"
+msgstr "Informations de livraison"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Dismissed"
+msgstr "Rejeté"
+
+msgid "Django admin"
+msgstr "Administration Django"
+
+msgid "Download image"
+msgstr "Télécharger l'image"
+
+msgid "Download product info (PDF)"
+msgstr "Télécharger la fiche produit (PDF)"
+
+msgid "Draft"
+msgstr "Brouillon"
+
+msgid "Edit"
+msgstr "Modifier"
+
+msgid "Edit category"
+msgstr "Modifier la catégorie"
+
+#, python-format
+msgid "Edit category: %(name)s"
+msgstr "Modifier la catégorie : %(name)s"
+
+msgid "Edit product"
+msgstr "Modifier le produit"
+
+msgid "Edit profile"
+msgstr "Modifier le profil"
+
+msgid "Email address"
+msgstr "Adresse e-mail"
+
+msgid "Enter your email address and we will send you a link to choose a new password."
+msgstr "Saisissez votre adresse e-mail et nous vous enverrons un lien pour choisir un nouveau mot de passe."
+
+msgid "Every shop is approved by our team and every listing is reviewed before it goes live, so you can browse with confidence."
+msgstr "Chaque boutique est approuvée par notre équipe et chaque annonce est vérifiée avant sa mise en ligne : vous pouvez naviguer en toute confiance."
+
+msgid "Failed"
+msgstr "Échoué"
+
+msgid "Filter"
+msgstr "Filtrer"
+
+msgid "Find great products from trusted sellers"
+msgstr "Trouvez d'excellents produits auprès de vendeurs de confiance"
+
+msgid "Follow your orders and get notified at every step."
+msgstr "Suivez vos commandes et soyez notifié à chaque étape."
+
+msgid "Forgot your password?"
+msgstr "Mot de passe oublié ?"
+
+msgid "Found something you like? Use “Send a request” on a product page to ask the seller."
+msgstr "Vous avez trouvé quelque chose ? Utilisez « Envoyer une demande » sur la page d'un produit pour interroger le vendeur."
+
+msgid "Fraud, counterfeit goods, harassment and attempts to bypass security are not allowed and may result in account suspension."
+msgstr "La fraude, les produits contrefaits, le harcèlement et les tentatives de contournement de la sécurité sont interdits et peuvent entraîner la suspension du compte."
+
+msgid "Fulfilment"
+msgstr "Traitement"
+
+msgid "Full name"
+msgstr "Nom complet"
+
+msgid "Go to product"
+msgstr "Aller au produit"
+
+#, python-format
+msgid "Hello, %(name)s"
+msgstr "Bonjour, %(name)s"
+
+msgid "Hidden"
+msgstr "Masqué"
+
+msgid "Hidden reviews are not shown publicly."
+msgstr "Les avis masqués ne sont pas affichés publiquement."
+
+msgid "Hide"
+msgstr "Masquer"
+
+msgid "Home"
+msgstr "Accueil"
+
+msgid "How it works"
+msgstr "Comment ça marche"
+
+msgid "How we keep the marketplace safe"
+msgstr "Comment nous protégeons la place de marché"
+
+msgid "How we use it"
+msgstr "Comment nous les utilisons"
+
+msgid "If an account exists for the address you entered, we have sent instructions for choosing a new password. The link is valid for 24 hours."
+msgstr "Si un compte existe pour l'adresse saisie, nous avons envoyé les instructions pour choisir un nouveau mot de passe. Le lien est valable 24 heures."
+
+msgid "Image added."
+msgstr "Image ajoutée."
+
+#, python-format
+msgid "Image is too large. The maximum size is %(mb)s MB."
+msgstr "L'image est trop volumineuse. La taille maximale est de %(mb)s Mo."
+
+msgid "Image removed."
+msgstr "Image supprimée."
+
+msgid "In cart"
+msgstr "Dans le panier"
+
+msgid "In stock"
+msgstr "En stock"
+
+msgid "In stock only"
+msgstr "En stock uniquement"
+
+msgid "Inappropriate content or behaviour"
+msgstr "Contenu ou comportement inapproprié"
+
+msgid "Incoming requests"
+msgstr "Demandes reçues"
+
+msgid "Invalid action."
+msgstr "Action non valide."
+
+msgid "Invalid status."
+msgstr "Statut non valide."
+
+msgid "Item"
+msgstr "Article"
+
+msgid "Item removed from your cart."
+msgstr "Article retiré de votre panier."
+
+msgid "Items"
+msgstr "Articles"
+
+msgid "Items in this order"
+msgstr "Articles de cette commande"
+
+msgid "Items in your cart"
+msgstr "Articles de votre panier"
+
+#, python-format
+msgid "JPG, PNG or WebP. Maximum %(mb)s MB."
+msgstr "JPG, PNG ou WebP. %(mb)s Mo maximum."
+
+msgid "Joined"
+msgstr "Inscrit le"
+
+msgid "Largest categories"
+msgstr "Plus grandes catégories"
+
+msgid "Last 30 days"
+msgstr "30 derniers jours"
+
+msgid "Latest arrivals"
+msgstr "Dernières nouveautés"
+
+msgid "Latest notifications"
+msgstr "Dernières notifications"
+
+msgid "Latest orders"
+msgstr "Dernières commandes"
+
+msgid "Latest paid items"
+msgstr "Derniers articles payés"
+
+msgid "Latest requests"
+msgstr "Dernières demandes"
+
+msgid "Learn how our marketplace connects customers with approved sellers."
+msgstr "Découvrez comment notre place de marché relie les clients à des vendeurs approuvés."
+
+msgid "Legal"
+msgstr "Mentions légales"
+
+msgid "Like new"
+msgstr "Comme neuf"
+
+#, python-format
+msgid "Listing updated and awaiting approval: %(name)s"
+msgstr "Annonce modifiée et en attente d'approbation : %(name)s"
+
+msgid "Listing updated."
+msgstr "Annonce mise à jour."
+
+msgid "Listings awaiting approval"
+msgstr "Annonces en attente d'approbation"
+
+msgid "Listings needing attention"
+msgstr "Annonces à traiter"
+
+msgid "Listings pending"
+msgstr "Annonces en attente"
+
+msgid "Location"
+msgstr "Localisation"
+
+msgid "Main navigation"
+msgstr "Navigation principale"
+
+msgid "Manage orders"
+msgstr "Gérer les commandes"
+
+msgid "Manage products"
+msgstr "Gérer les produits"
+
+msgid "Manage users"
+msgstr "Gérer les utilisateurs"
+
+msgid "Mark all as read"
+msgstr "Tout marquer comme lu"
+
+msgid "Mark as completed"
+msgstr "Marquer comme terminée"
+
+msgid "Mark as read"
+msgstr "Marquer comme lu"
+
+msgid "Mark delivered"
+msgstr "Marquer comme livré"
+
+msgid "Mark shipped"
+msgstr "Marquer comme expédié"
+
+msgid "Marketplace"
+msgstr "Place de marché"
+
+msgid "Marketplace overview"
+msgstr "Vue d'ensemble de la place de marché"
+
+msgid "Marketplace statistics"
+msgstr "Statistiques de la place de marché"
+
+msgid "Max price"
+msgstr "Prix max."
+
+msgid "Member since"
+msgstr "Membre depuis"
+
+msgid "Menu"
+msgstr "Menu"
+
+msgid "Message"
+msgstr "Message"
+
+msgid "Message to the customer"
+msgstr "Message au client"
+
+msgid "Min price"
+msgstr "Prix min."
+
+msgid "Misleading information"
+msgstr "Informations trompeuses"
+
+msgid "Moderate"
+msgstr "Modérer"
+
+msgid "More in this category"
+msgstr "Plus dans cette catégorie"
+
+msgid "My dashboard"
+msgstr "Mon tableau de bord"
+
+msgid "My orders"
+msgstr "Mes commandes"
+
+msgid "My products"
+msgstr "Mes produits"
+
+msgid "My profile"
+msgstr "Mon profil"
+
+msgid "My requests"
+msgstr "Mes demandes"
+
+msgid "My wishlist"
+msgstr "Ma liste d'envies"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Name A-Z"
+msgstr "Nom A-Z"
+
+msgid "Name, username or email"
+msgstr "Nom, nom d'utilisateur ou e-mail"
+
+msgid "New"
+msgstr "Nouveau"
+
+#, python-format
+msgid "New %(n)s-star review on \"%(name)s\"."
+msgstr "Nouvel avis %(n)s étoiles sur « %(name)s »."
+
+msgid "New and changed listings are checked before they appear publicly."
+msgstr "Les annonces nouvelles ou modifiées sont vérifiées avant d'apparaître publiquement."
+
+#, python-format
+msgid "New listing awaiting approval: %(name)s"
+msgstr "Nouvelle annonce en attente d'approbation : %(name)s"
+
+#, python-format
+msgid "New paid order %(ref)s with %(n)s item(s) from your shop."
+msgstr "Nouvelle commande payée %(ref)s avec %(n)s article(s) de votre boutique."
+
+#, python-format
+msgid "New report on listing: %(name)s"
+msgstr "Nouveau signalement sur l'annonce : %(name)s"
+
+#, python-format
+msgid "New request from %(name)s for \"%(product)s\"."
+msgstr "Nouvelle demande de %(name)s pour « %(product)s »."
+
+msgid "New sellers are reviewed and approved before they can list products."
+msgstr "Les nouveaux vendeurs sont examinés et approuvés avant de pouvoir publier des produits."
+
+msgid "New status"
+msgstr "Nouveau statut"
+
+msgid "New users"
+msgstr "Nouveaux utilisateurs"
+
+msgid "Newest"
+msgstr "Plus récents"
+
+msgid "Next"
+msgstr "Suivant"
+
+msgid "No categories yet. Add the first one."
+msgstr "Aucune catégorie pour l'instant. Ajoutez la première."
+
+msgid "No extra images yet."
+msgstr "Aucune image supplémentaire pour l'instant."
+
+msgid "No listings found."
+msgstr "Aucune annonce trouvée."
+
+msgid "No longer available. Remove it to continue."
+msgstr "N'est plus disponible. Retirez-le pour continuer."
+
+msgid "No longer listed"
+msgstr "N'est plus en vente"
+
+msgid "No notifications"
+msgstr "Aucune notification"
+
+msgid "No orders found."
+msgstr "Aucune commande trouvée."
+
+msgid "No orders yet"
+msgstr "Aucune commande pour l'instant"
+
+msgid "No orders yet."
+msgstr "Aucune commande pour l'instant."
+
+msgid "No paid orders yet."
+msgstr "Aucune commande payée pour l'instant."
+
+msgid "No payments yet."
+msgstr "Aucun paiement pour l'instant."
+
+msgid "No products found"
+msgstr "Aucun produit trouvé"
+
+msgid "No products yet"
+msgstr "Aucun produit pour l'instant"
+
+msgid "No published listings yet."
+msgstr "Aucune annonce publiée pour l'instant."
+
+msgid "No reports"
+msgstr "Aucun signalement"
+
+msgid "No requests found."
+msgstr "Aucune demande trouvée."
+
+msgid "No requests yet"
+msgstr "Aucune demande pour l'instant"
+
+msgid "No requests yet."
+msgstr "Aucune demande pour l'instant."
+
+msgid "No reviews found."
+msgstr "Aucun avis trouvé."
+
+msgid "No reviews yet."
+msgstr "Aucun avis pour l'instant."
+
+msgid "No sellers found."
+msgstr "Aucun vendeur trouvé."
+
+msgid "No users match your search."
+msgstr "Aucun utilisateur ne correspond à votre recherche."
+
+msgid "Note to seller"
+msgstr "Note au vendeur"
+
+msgid "Note to seller (optional)"
+msgstr "Note au vendeur (facultatif)"
+
+msgid "Notes:"
+msgstr "Notes :"
+
+msgid "Nothing has been reported. Great!"
+msgstr "Rien n'a été signalé. Parfait !"
+
+msgid "Nothing new."
+msgstr "Rien de nouveau."
+
+msgid "Nothing waiting. Great!"
+msgstr "Rien en attente. Parfait !"
+
+msgid "Notifications"
+msgstr "Notifications"
+
+#, python-format
+msgid "Only %(n)s available."
+msgstr "Seulement %(n)s disponible(s)."
+
+#, python-format
+msgid "Only %(n)s left. Please lower the quantity."
+msgstr "Il n'en reste que %(n)s. Veuillez réduire la quantité."
+
+#, python-format
+msgid "Only %(n)s of \"%(name)s\" are available."
+msgstr "Seulement %(n)s exemplaire(s) de « %(name)s » disponible(s)."
+
+#, python-format
+msgid "Only %(n)s of \"%(name)s\" are available. Please update your cart."
+msgstr "Seulement %(n)s exemplaire(s) de « %(name)s » disponible(s). Veuillez mettre à jour votre panier."
+
+msgid "Only a superuser can change a superuser account."
+msgstr "Seul un superutilisateur peut modifier un compte de superutilisateur."
+
+msgid "Only paid orders can be fulfilled."
+msgstr "Seules les commandes payées peuvent être traitées."
+
+msgid "Only unpaid orders can be cancelled."
+msgstr "Seules les commandes impayées peuvent être annulées."
+
+msgid "Open"
+msgstr "Ouvrir"
+
+msgid "Open a seller account"
+msgstr "Ouvrir un compte vendeur"
+
+msgid "Open reports"
+msgstr "Signalements ouverts"
+
+msgid "Open requests"
+msgstr "Demandes ouvertes"
+
+msgid "Optional. For example delivery instructions."
+msgstr "Facultatif. Par exemple, des instructions de livraison."
+
+msgid "Order"
+msgstr "Commande"
+
+#, python-format
+msgid "Order %(ref)s"
+msgstr "Commande %(ref)s"
+
+#, python-format
+msgid "Order %(ref)s created. Complete payment to confirm it."
+msgstr "Commande %(ref)s créée. Finalisez le paiement pour la confirmer."
+
+msgid "Order item updated."
+msgstr "Article de la commande mis à jour."
+
+msgid "Order items"
+msgstr "Articles de la commande"
+
+msgid "Order notes"
+msgstr "Notes de commande"
+
+msgid "Order summary"
+msgstr "Récapitulatif de la commande"
+
+msgid "Orders"
+msgstr "Commandes"
+
+msgid "Orders are confirmed once payment succeeds. Product details are provided by sellers; please read listings carefully and contact the seller with questions before buying."
+msgstr "Les commandes sont confirmées une fois le paiement réussi. Les détails des produits sont fournis par les vendeurs ; lisez attentivement les annonces et contactez le vendeur en cas de question avant d'acheter."
+
+msgid "Orders by status"
+msgstr "Commandes par statut"
+
+msgid "Orders to fulfil"
+msgstr "Commandes à traiter"
+
+msgid "Other"
+msgstr "Autre"
+
+msgid "Overview"
+msgstr "Vue d'ensemble"
+
+msgid "Owner"
+msgstr "Propriétaire"
+
+msgid "Page not found"
+msgstr "Page introuvable"
+
+msgid "Pagination"
+msgstr "Pagination"
+
+msgid "Paid"
+msgstr "Payée"
+
+msgid "Paid order items from your shop"
+msgstr "Articles payés de votre boutique"
+
+msgid "Paid orders"
+msgstr "Commandes payées"
+
+msgid "Paid orders containing your products will appear here."
+msgstr "Les commandes payées contenant vos produits apparaîtront ici."
+
+msgid "Paid revenue"
+msgstr "Chiffre d'affaires encaissé"
+
+msgid "Password changed"
+msgstr "Mot de passe modifié"
+
+msgid "Pause"
+msgstr "Mettre en pause"
+
+msgid "Pay now"
+msgstr "Payer maintenant"
+
+msgid "Payment failed. Please try again."
+msgstr "Le paiement a échoué. Veuillez réessayer."
+
+#, python-format
+msgid "Payment received for order %(ref)s. Thank you!"
+msgstr "Paiement reçu pour la commande %(ref)s. Merci !"
+
+msgid "Payment successful. Your order is confirmed."
+msgstr "Paiement réussi. Votre commande est confirmée."
+
+msgid "Payments"
+msgstr "Paiements"
+
+msgid "Payments by status"
+msgstr "Paiements par statut"
+
+msgid "Pending"
+msgstr "En attente"
+
+msgid "Pending approval"
+msgstr "En attente d'approbation"
+
+msgid "Pending requests"
+msgstr "Demandes en attente"
+
+msgid "People"
+msgstr "Personnes"
+
+msgid "Phone"
+msgstr "Téléphone"
+
+msgid "Phone number"
+msgstr "Numéro de téléphone"
+
+msgid "Place order"
+msgstr "Passer la commande"
+
+msgid "Placed"
+msgstr "Passée le"
+
+msgid "Please choose a rating from 1 to 5."
+msgstr "Veuillez choisir une note de 1 à 5."
+
+msgid "Please choose a reason for your report."
+msgstr "Veuillez choisir un motif pour votre signalement."
+
+msgid "Please confirm"
+msgstr "Veuillez confirmer"
+
+msgid "Please contact support for more information."
+msgstr "Veuillez contacter l'assistance pour plus d'informations."
+
+msgid "Please enter a valid quantity."
+msgstr "Veuillez saisir une quantité valide."
+
+msgid "Please give the seller a reason for the rejection."
+msgstr "Veuillez indiquer au vendeur le motif du refus."
+
+msgid "Preview"
+msgstr "Aperçu"
+
+#, python-format
+msgid "Preview only: this listing is not public yet (status: %(status)s)."
+msgstr "Aperçu uniquement : cette annonce n'est pas encore publique (statut : %(status)s)."
+
+msgid "Previous"
+msgstr "Précédent"
+
+msgid "Price"
+msgstr "Prix"
+
+msgid "Price must be greater than zero."
+msgstr "Le prix doit être supérieur à zéro."
+
+msgid "Price: high to low"
+msgstr "Prix : décroissant"
+
+msgid "Price: low to high"
+msgstr "Prix : croissant"
+
+msgid "Prices are confirmed again at checkout."
+msgstr "Les prix sont confirmés à nouveau lors du paiement."
+
+msgid "Privacy policy"
+msgstr "Politique de confidentialité"
+
+msgid "Proceed to checkout"
+msgstr "Passer à la caisse"
+
+msgid "Processing"
+msgstr "En cours de traitement"
+
+msgid "Product"
+msgstr "Produit"
+
+msgid "Product categories"
+msgstr "Catégories de produits"
+
+msgid "Product images"
+msgstr "Images du produit"
+
+msgid "Product listings"
+msgstr "Annonces de produits"
+
+msgid "Product removed from your wishlist."
+msgstr "Produit retiré de votre liste d'envies."
+
+msgid "Product requests"
+msgstr "Demandes de produits"
+
+msgid "Product saved to your wishlist."
+msgstr "Produit ajouté à votre liste d'envies."
+
+msgid "Products"
+msgstr "Produits"
+
+msgid "Profile"
+msgstr "Profil"
+
+msgid "Publish"
+msgstr "Publier"
+
+msgid "Published"
+msgstr "Publiée"
+
+msgid "Published listings"
+msgstr "Annonces publiées"
+
+msgid "Qty"
+msgstr "Qté"
+
+msgid "Quantity"
+msgstr "Quantité"
+
+msgid "Quantity must be at least 1."
+msgstr "La quantité doit être d'au moins 1."
+
+msgid "Questions, feedback or a problem with an order? Send us a message and we will get back to you by email."
+msgstr "Une question, un retour ou un problème avec une commande ? Envoyez-nous un message et nous vous répondrons par e-mail."
+
+msgid "Rating"
+msgstr "Note"
+
+msgid "Reactivate this account?"
+msgstr "Réactiver ce compte ?"
+
+msgid "Reason"
+msgstr "Motif"
+
+msgid "Reason (required to reject)"
+msgstr "Motif (obligatoire pour refuser)"
+
+msgid "Reason (shown to seller)"
+msgstr "Motif (visible par le vendeur)"
+
+msgid "Reason:"
+msgstr "Motif :"
+
+msgid "Received"
+msgstr "Reçue le"
+
+msgid "Recent orders"
+msgstr "Commandes récentes"
+
+msgid "Recent requests"
+msgstr "Demandes récentes"
+
+msgid "Recipient name"
+msgstr "Nom du destinataire"
+
+msgid "Reference or customer"
+msgstr "Référence ou client"
+
+msgid "Refunded"
+msgstr "Remboursé"
+
+msgid "Refurbished"
+msgstr "Reconditionné"
+
+msgid "Registered business name"
+msgstr "Raison sociale"
+
+msgid "Reject"
+msgstr "Refuser"
+
+msgid "Rejected"
+msgstr "Refusée"
+
+msgid "Rejected:"
+msgstr "Refusée :"
+
+msgid "Remove"
+msgstr "Retirer"
+
+#, python-format
+msgid "Remove %(name)s"
+msgstr "Retirer %(name)s"
+
+#, python-format
+msgid "Remove %(name)s from wishlist"
+msgstr "Retirer %(name)s de la liste d'envies"
+
+msgid "Remove this image?"
+msgstr "Retirer cette image ?"
+
+msgid "Remove unavailable items to continue."
+msgstr "Retirez les articles indisponibles pour continuer."
+
+msgid "Report this listing"
+msgstr "Signaler cette annonce"
+
+msgid "Report updated."
+msgstr "Signalement mis à jour."
+
+#, python-format
+msgid "Reported by %(who)s on %(when)s"
+msgstr "Signalé par %(who)s le %(when)s"
+
+msgid "Reported listings"
+msgstr "Annonces signalées"
+
+msgid "Reports"
+msgstr "Signalements"
+
+#, python-format
+msgid "Request #%(n)s"
+msgstr "Demande n° %(n)s"
+
+msgid "Request a new link"
+msgstr "Demander un nouveau lien"
+
+msgid "Request details"
+msgstr "Détails de la demande"
+
+msgid "Requests"
+msgstr "Demandes"
+
+msgid "Requests from customers"
+msgstr "Demandes des clients"
+
+msgid "Reset your password"
+msgstr "Réinitialisez votre mot de passe"
+
+msgid "Resolved"
+msgstr "Résolu"
+
+msgid "Respond"
+msgstr "Répondre"
+
+msgid "Resume"
+msgstr "Reprendre"
+
+msgid "Revenue"
+msgstr "Chiffre d'affaires"
+
+msgid "Revenue (paid)"
+msgstr "Chiffre d'affaires (payé)"
+
+msgid "Review all"
+msgstr "Tout examiner"
+
+msgid "Review hidden."
+msgstr "Avis masqué."
+
+msgid "Review is now visible."
+msgstr "L'avis est maintenant visible."
+
+msgid "Review moderation"
+msgstr "Modération des avis"
+
+msgid "Review this product"
+msgstr "Évaluer ce produit"
+
+msgid "Review your shop details"
+msgstr "Vérifier les informations de votre boutique"
+
+msgid "Reviews"
+msgstr "Avis"
+
+msgid "Role"
+msgstr "Rôle"
+
+msgid "Save"
+msgstr "Enregistrer"
+
+#, python-format
+msgid "Save %(name)s to wishlist"
+msgstr "Ajouter %(name)s à la liste d'envies"
+
+msgid "Save changes"
+msgstr "Enregistrer les modifications"
+
+msgid "Save favourites, send requests to sellers and order products."
+msgstr "Enregistrez vos favoris, envoyez des demandes aux vendeurs et commandez des produits."
+
+msgid "Save new password"
+msgstr "Enregistrer le nouveau mot de passe"
+
+msgid "Save settings"
+msgstr "Enregistrer les paramètres"
+
+msgid "Search"
+msgstr "Rechercher"
+
+msgid "Search and filter products from approved sellers."
+msgstr "Recherchez et filtrez les produits de vendeurs approuvés."
+
+msgid "Search and filter products from approved shops."
+msgstr "Recherchez et filtrez les produits de boutiques approuvées."
+
+msgid "Search and filters"
+msgstr "Recherche et filtres"
+
+msgid "Search products"
+msgstr "Rechercher des produits"
+
+msgid "Search products..."
+msgstr "Rechercher des produits..."
+
+msgid "Security"
+msgstr "Sécurité"
+
+msgid "See all products"
+msgstr "Voir tous les produits"
+
+msgid "Sell on"
+msgstr "Vendre sur"
+
+msgid "Seller"
+msgstr "Vendeur"
+
+msgid "Seller approvals"
+msgstr "Approbation des vendeurs"
+
+msgid "Seller dashboard"
+msgstr "Tableau de bord vendeur"
+
+msgid "Seller reply"
+msgstr "Réponse du vendeur"
+
+msgid "Seller shops"
+msgstr "Boutiques des vendeurs"
+
+msgid "Seller status updated."
+msgstr "Statut du vendeur mis à jour."
+
+msgid "Sellers awaiting approval"
+msgstr "Vendeurs en attente d'approbation"
+
+msgid "Sellers must be approved before listing products. Listings must be accurate, lawful and must not infringe anyone's rights. We may reject, remove or suspend listings and shops that break these terms."
+msgstr "Les vendeurs doivent être approuvés avant de publier des produits. Les annonces doivent être exactes, licites et ne pas porter atteinte aux droits d'autrui. Nous pouvons refuser, retirer ou suspendre les annonces et boutiques qui enfreignent ces conditions."
+
+msgid "Sellers pending"
+msgstr "Vendeurs en attente"
+
+msgid "Sellers see the delivery details of paid orders containing their products. Your email and phone number are never shown on public pages."
+msgstr "Les vendeurs voient les informations de livraison des commandes payées contenant leurs produits. Votre e-mail et votre numéro de téléphone ne sont jamais affichés sur les pages publiques."
+
+msgid "Send a request"
+msgstr "Envoyer une demande"
+
+msgid "Send a request to a seller, or add items to your cart and check out."
+msgstr "Envoyez une demande à un vendeur, ou ajoutez des articles à votre panier et passez commande."
+
+msgid "Send a request to the seller"
+msgstr "Envoyer une demande au vendeur"
+
+msgid "Send back to pending"
+msgstr "Remettre en attente"
+
+msgid "Send message"
+msgstr "Envoyer le message"
+
+msgid "Send request"
+msgstr "Envoyer la demande"
+
+msgid "Send reset link"
+msgstr "Envoyer le lien de réinitialisation"
+
+msgid "Sent"
+msgstr "Envoyée le"
+
+msgid "Shipped"
+msgstr "Expédiée"
+
+msgid "Shop"
+msgstr "Boutique"
+
+msgid "Shop by category"
+msgstr "Parcourir par catégorie"
+
+msgid "Shop description"
+msgstr "Description de la boutique"
+
+msgid "Shop name"
+msgstr "Nom de la boutique"
+
+#, python-format
+msgid "Shop products from %(name)s."
+msgstr "Découvrez les produits de %(name)s."
+
+msgid "Shop settings"
+msgstr "Paramètres de la boutique"
+
+msgid "Shop status:"
+msgstr "Statut de la boutique :"
+
+msgid "Shopping cart"
+msgstr "Panier"
+
+msgid "Shops"
+msgstr "Boutiques"
+
+msgid "Show"
+msgstr "Afficher"
+
+#, python-format
+msgid "Show image %(n)s"
+msgstr "Afficher l'image %(n)s"
+
+msgid "Show main image"
+msgstr "Afficher l'image principale"
+
+msgid "Shown to the seller, e.g. the reason for a rejection."
+msgstr "Visible par le vendeur, par exemple le motif d'un refus."
+
+msgid "Sign in"
+msgstr "Se connecter"
+
+msgid "Sign in again"
+msgstr "Se reconnecter"
+
+msgid "Sign in to save this product"
+msgstr "Connectez-vous pour enregistrer ce produit"
+
+msgid "Sign in to your account."
+msgstr "Connectez-vous à votre compte."
+
+msgid "Sign out"
+msgstr "Se déconnecter"
+
+msgid "Signed out"
+msgstr "Déconnecté"
+
+msgid "Skip to main content"
+msgstr "Aller au contenu principal"
+
+msgid "Sold by"
+msgstr "Vendu par"
+
+msgid "Sort by"
+msgstr "Trier par"
+
+msgid "Start processing"
+msgstr "Commencer le traitement"
+
+msgid "Start shopping"
+msgstr "Commencer vos achats"
+
+msgid "Statistics"
+msgstr "Statistiques"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Stock"
+msgstr "Stock"
+
+msgid "Subject"
+msgstr "Objet"
+
+msgid "Submit for approval"
+msgstr "Soumettre pour approbation"
+
+msgid "Submit report"
+msgstr "Envoyer le signalement"
+
+msgid "Submit review"
+msgstr "Envoyer l'avis"
+
+msgid "Subtotal"
+msgstr "Sous-total"
+
+msgid "Suspended"
+msgstr "Suspendue"
+
+msgid "Suspicious or fraudulent listing"
+msgstr "Annonce suspecte ou frauduleuse"
+
+msgid "Tap the heart on any product to save it here for later."
+msgstr "Touchez le cœur sur un produit pour le garder ici pour plus tard."
+
+msgid "Tell customers what you sell."
+msgstr "Dites aux clients ce que vous vendez."
+
+msgid "Template text: have these terms reviewed by a qualified professional and adapt them to your business before launch."
+msgstr "Texte type : faites relire ces conditions par un professionnel qualifié et adaptez-les à votre activité avant le lancement."
+
+msgid "Template text: have this policy reviewed by a qualified professional and adapt it to your business and local data-protection law before launch."
+msgstr "Texte type : faites relire cette politique par un professionnel qualifié et adaptez-la à votre activité et à la loi locale sur la protection des données avant le lancement."
+
+msgid "Terms and conditions"
+msgstr "Conditions générales"
+
+msgid "Test mode: pressing Pay now simulates a successful payment. No real money is charged."
+msgstr "Mode test : le bouton « Payer maintenant » simule un paiement réussi. Aucun argent réel n'est débité."
+
+msgid "Test mode: you will complete a simulated payment on the next page. No real money is charged."
+msgstr "Mode test : vous effectuerez un paiement simulé sur la page suivante. Aucun argent réel n'est débité."
+
+msgid "Thank you for your review."
+msgstr "Merci pour votre avis."
+
+msgid "Thank you. Our team will review your report."
+msgstr "Merci. Notre équipe examinera votre signalement."
+
+msgid "Thank you. Your message has been sent."
+msgstr "Merci. Votre message a été envoyé."
+
+msgid "Thanks for visiting. See you again soon!"
+msgstr "Merci de votre visite. À bientôt !"
+
+msgid "That status change is not allowed for this request."
+msgstr "Ce changement de statut n'est pas autorisé pour cette demande."
+
+msgid "That status change is not allowed."
+msgstr "Ce changement de statut n'est pas autorisé."
+
+msgid "The page may have moved, been removed, or never existed."
+msgstr "La page a peut-être été déplacée, supprimée, ou n'a jamais existé."
+
+msgid "The password reset link has expired or was already used. Please request a new one."
+msgstr "Le lien de réinitialisation du mot de passe a expiré ou a déjà été utilisé. Veuillez en demander un nouveau."
+
+msgid "The product is now marked as available."
+msgstr "Le produit est maintenant marqué comme disponible."
+
+msgid "The product is now marked as unavailable."
+msgstr "Le produit est maintenant marqué comme indisponible."
+
+msgid "The request has been updated."
+msgstr "La demande a été mise à jour."
+
+msgid "The seller accepted your request. You can buy the item now:"
+msgstr "Le vendeur a accepté votre demande. Vous pouvez acheter l'article maintenant :"
+
+msgid "The seller must be the owner of the requested product."
+msgstr "Le vendeur doit être le propriétaire du produit demandé."
+
+msgid "The uploaded file is not a valid image."
+msgstr "Le fichier envoyé n'est pas une image valide."
+
+msgid "This link is no longer valid"
+msgstr "Ce lien n'est plus valide"
+
+msgid "This order cannot be paid."
+msgstr "Cette commande ne peut pas être payée."
+
+msgid "This order is waiting for payment. Items are reserved for you until it is paid or cancelled."
+msgstr "Cette commande est en attente de paiement. Les articles vous sont réservés jusqu'à son paiement ou son annulation."
+
+msgid "This product is not available right now."
+msgstr "Ce produit n'est pas disponible actuellement."
+
+msgid "This request can no longer be cancelled."
+msgstr "Cette demande ne peut plus être annulée."
+
+msgid "This shop has no products yet"
+msgstr "Cette boutique n'a pas encore de produits"
+
+msgid "This shop name is already taken."
+msgstr "Ce nom de boutique est déjà pris."
+
+msgid "To fulfil"
+msgstr "À traiter"
+
+msgid "To run your account, process orders, let buyers and sellers communicate about orders and requests, prevent fraud and improve the service."
+msgstr "Pour gérer votre compte, traiter les commandes, permettre aux acheteurs et aux vendeurs d'échanger au sujet des commandes et des demandes, prévenir la fraude et améliorer le service."
+
+msgid "Toggle navigation"
+msgstr "Afficher ou masquer la navigation"
+
+msgid "Top sellers"
+msgstr "Meilleurs vendeurs"
+
+msgid "Top sellers by revenue"
+msgstr "Meilleurs vendeurs par chiffre d'affaires"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Try different keywords or remove some filters."
+msgstr "Essayez d'autres mots-clés ou retirez certains filtres."
+
+msgid "Unavailable"
+msgstr "Indisponible"
+
+msgid "Under review"
+msgstr "En cours d'examen"
+
+msgid "Units"
+msgstr "Unités"
+
+msgid "Unsupported image format. Please upload a JPG, PNG or WebP image."
+msgstr "Format d'image non pris en charge. Veuillez envoyer une image JPG, PNG ou WebP."
+
+msgid "Unsupported image type. Please upload a JPG, PNG or WebP image."
+msgstr "Type d'image non pris en charge. Veuillez envoyer une image JPG, PNG ou WebP."
+
+msgid "Update"
+msgstr "Mettre à jour"
+
+msgid "Used"
+msgstr "D'occasion"
+
+msgid "User"
+msgstr "Utilisateur"
+
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+msgid "Username or email"
+msgstr "Nom d'utilisateur ou e-mail"
+
+msgid "Users"
+msgstr "Utilisateurs"
+
+msgid "View"
+msgstr "Voir"
+
+msgid "View all"
+msgstr "Tout voir"
+
+msgid "View details"
+msgstr "Voir les détails"
+
+msgid "View public page"
+msgstr "Voir la page publique"
+
+msgid "View public shop"
+msgstr "Voir la boutique publique"
+
+msgid "Visible"
+msgstr "Visible"
+
+msgid "Want to sell?"
+msgstr "Envie de vendre ?"
+
+msgid "We can't find that page"
+msgstr "Nous ne trouvons pas cette page"
+
+msgid "We may update these terms. Continued use of the marketplace means you accept the updated terms."
+msgstr "Nous pouvons modifier ces conditions. En continuant à utiliser la place de marché, vous acceptez les conditions mises à jour."
+
+msgid "We never store card numbers. Payments are handled by the payment provider."
+msgstr "Nous ne conservons jamais les numéros de carte. Les paiements sont gérés par le prestataire de paiement."
+
+msgid "Welcome back"
+msgstr "Bon retour"
+
+msgid "Welcome! Your customer account has been created."
+msgstr "Bienvenue ! Votre compte client a été créé."
+
+msgid "What are you looking for?"
+msgstr "Que recherchez-vous ?"
+
+msgid "What we collect"
+msgstr "Ce que nous collectons"
+
+msgid "When customers send you a request about a product, it will appear here."
+msgstr "Lorsque des clients vous enverront une demande au sujet d'un produit, elle apparaîtra ici."
+
+msgid "Who sees it"
+msgstr "Qui y a accès"
+
+msgid "Wishlist"
+msgstr "Liste d'envies"
+
+msgid "Write a review"
+msgstr "Écrire un avis"
+
+msgid "Yes, continue"
+msgstr "Oui, continuer"
+
+msgid "You already have a pending request for this product."
+msgstr "Vous avez déjà une demande en attente pour ce produit."
+
+msgid "You are all caught up. Updates about your orders and requests will show up here."
+msgstr "Vous êtes à jour. Les nouvelles de vos commandes et demandes s'afficheront ici."
+
+#, python-format
+msgid "You are asking <strong>%(shop)s</strong> about <strong>%(name)s</strong>."
+msgstr "Vous interrogez <strong>%(shop)s</strong> au sujet de <strong>%(name)s</strong>."
+
+msgid "You can now sign in with your new password."
+msgstr "Vous pouvez maintenant vous connecter avec votre nouveau mot de passe."
+
+msgid "You can only review products you have bought."
+msgstr "Vous ne pouvez évaluer que les produits que vous avez achetés."
+
+msgid "You can only update items from your own shop."
+msgstr "Vous ne pouvez modifier que les articles de votre propre boutique."
+
+#, python-format
+msgid "You can order at most %(n)s of one product at a time."
+msgstr "Vous pouvez commander au maximum %(n)s exemplaires d'un même produit à la fois."
+
+msgid "You can update your profile at any time. Contact us to ask for your data to be corrected or deleted."
+msgstr "Vous pouvez modifier votre profil à tout moment. Contactez-nous pour demander la correction ou la suppression de vos données."
+
+msgid "You cannot deactivate your own account."
+msgstr "Vous ne pouvez pas désactiver votre propre compte."
+
+msgid "You don't have access to this page"
+msgstr "Vous n'avez pas accès à cette page"
+
+msgid "You have already reviewed this product."
+msgstr "Vous avez déjà évalué ce produit."
+
+msgid "You have been signed out"
+msgstr "Vous avez été déconnecté"
+
+msgid "You have not placed any orders yet."
+msgstr "Vous n'avez pas encore passé de commande."
+
+msgid "You must provide accurate information when you register and keep your login details private. You are responsible for activity on your account."
+msgstr "Vous devez fournir des informations exactes lors de votre inscription et garder vos identifiants confidentiels. Vous êtes responsable de l'activité de votre compte."
+
+msgid "Your account does not have permission to view this page. If you think this is a mistake, please contact us."
+msgstr "Votre compte n'a pas l'autorisation de voir cette page. Si vous pensez qu'il s'agit d'une erreur, veuillez nous contacter."
+
+msgid "Your cart has been updated."
+msgstr "Votre panier a été mis à jour."
+
+msgid "Your cart is empty"
+msgstr "Votre panier est vide"
+
+msgid "Your cart is empty."
+msgstr "Votre panier est vide."
+
+msgid "Your changes were saved. The listing needs approval again before it is public."
+msgstr "Vos modifications ont été enregistrées. L'annonce doit être de nouveau approuvée avant d'être publique."
+
+msgid "Your choices"
+msgstr "Vos choix"
+
+#, python-format
+msgid "Your item \"%(name)s\" in order %(ref)s is now: %(status)s."
+msgstr "Votre article « %(name)s » de la commande %(ref)s est maintenant : %(status)s."
+
+msgid "Your items"
+msgstr "Vos articles"
+
+#, python-format
+msgid "Your listing \"%(name)s\" is now: %(status)s."
+msgstr "Votre annonce « %(name)s » est maintenant : %(status)s."
+
+msgid "Your message"
+msgstr "Votre message"
+
+msgid "Your name"
+msgstr "Votre nom"
+
+msgid "Your order has been cancelled."
+msgstr "Votre commande a été annulée."
+
+msgid "Your order has been created. Please complete payment."
+msgstr "Votre commande a été créée. Veuillez finaliser le paiement."
+
+msgid "Your orders"
+msgstr "Vos commandes"
+
+msgid "Your orders will appear here after you check out."
+msgstr "Vos commandes apparaîtront ici après votre passage en caisse."
+
+msgid "Your password has been changed"
+msgstr "Votre mot de passe a été modifié"
+
+msgid "Your password has been changed."
+msgstr "Votre mot de passe a été modifié."
+
+msgid "Your product has been updated."
+msgstr "Votre produit a été mis à jour."
+
+msgid "Your product listings"
+msgstr "Vos annonces de produits"
+
+msgid "Your product was saved and is waiting for administrator approval."
+msgstr "Votre produit a été enregistré et attend l'approbation d'un administrateur."
+
+msgid "Your profile has been updated."
+msgstr "Votre profil a été mis à jour."
+
+msgid "Your profile picture"
+msgstr "Votre photo de profil"
+
+msgid "Your reply"
+msgstr "Votre réponse"
+
+msgid "Your request could not be saved."
+msgstr "Votre demande n'a pas pu être enregistrée."
+
+#, python-format
+msgid "Your request for \"%(product)s\" is now: %(status)s."
+msgstr "Votre demande pour « %(product)s » est maintenant : %(status)s."
+
+msgid "Your request has been cancelled."
+msgstr "Votre demande a été annulée."
+
+msgid "Your request has been sent to the seller."
+msgstr "Votre demande a été envoyée au vendeur."
+
+msgid "Your requests to sellers"
+msgstr "Vos demandes aux vendeurs"
+
+msgid "Your seller account has been created. An administrator will review your shop soon."
+msgstr "Votre compte vendeur a été créé. Un administrateur examinera bientôt votre boutique."
+
+msgid "Your seller account must be approved before you can use this page."
+msgstr "Votre compte vendeur doit être approuvé avant que vous puissiez utiliser cette page."
+
+msgid "Your shop"
+msgstr "Votre boutique"
+
+msgid "Your shop application was not approved"
+msgstr "Votre demande de boutique n'a pas été approuvée"
+
+msgid "Your shop is suspended"
+msgstr "Votre boutique est suspendue"
+
+msgid "Your shop is waiting for approval"
+msgstr "Votre boutique est en attente d'approbation"
+
+msgid "Your shop settings have been saved."
+msgstr "Les paramètres de votre boutique ont été enregistrés."
+
+#, python-format
+msgid "Your shop status is now: %(status)s."
+msgstr "Le statut de votre boutique est maintenant : %(status)s."
+
+msgid "Your wishlist is empty"
+msgstr "Votre liste d'envies est vide"
+
+msgid "ago"
+msgstr "il y a"
+
+msgid "available quantity"
+msgstr "quantité disponible"
+
+msgid "business address"
+msgstr "adresse de l'entreprise"
+
+msgid "business registration number"
+msgstr "numéro d'immatriculation de l'entreprise"
+
+msgid "city"
+msgstr "ville"
+
+msgid "create an account"
+msgstr "créer un compte"
+
+msgid "delivery address"
+msgstr "adresse de livraison"
+
+msgid "email address"
+msgstr "adresse e-mail"
+
+msgid "full name"
+msgstr "nom complet"
+
+msgid "items"
+msgstr "articles"
+
+msgid "location"
+msgstr "localisation"
+
+msgid "note from administrator"
+msgstr "note de l'administrateur"
+
+msgid "or"
+msgstr "ou"
+
+msgid "order notes"
+msgstr "notes de commande"
+
+msgid "phone number"
+msgstr "numéro de téléphone"
+
+msgid "primary image"
+msgstr "image principale"
+
+msgid "profile picture"
+msgstr "photo de profil"
+
+msgid "recipient name"
+msgstr "nom du destinataire"
+
+msgid "registered business name"
+msgstr "raison sociale"
+
+msgid "shop description"
+msgstr "description de la boutique"
+
+msgid "shop logo"
+msgstr "logo de la boutique"
+
+msgid "shop name"
+msgstr "nom de la boutique"
+
+msgid "to buy, save or send a request for this product."
+msgstr "pour acheter, enregistrer ou envoyer une demande pour ce produit."
+
+#, python-format
+msgid "%(counter)s review"
+msgid_plural "%(counter)s reviews"
+msgstr[0] "%(counter)s avis"
+msgstr[1] "%(counter)s avis"
+
+#, python-format
+msgid "%(counter)s product"
+msgid_plural "%(counter)s products"
+msgstr[0] "%(counter)s produit"
+msgstr[1] "%(counter)s produits"

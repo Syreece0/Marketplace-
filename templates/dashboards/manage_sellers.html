@@ -1,0 +1,43 @@
+{% extends "layouts/account.html" %}
+{% load i18n %}
+{% block title %}{% trans "Seller approvals" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "Seller approvals" %}{% endblock %}
+
+{% block account_content %}
+<form method="get" class="panel mb-3 row g-2 align-items-end">
+  <div class="col-md-5"><label class="form-label" for="q">{% trans "Search" %}</label><input id="q" class="form-control" type="search" name="q" value="{{ q }}" maxlength="100"></div>
+  <div class="col-md-4"><label class="form-label" for="status">{% trans "Status" %}</label>
+    <select id="status" name="status" class="form-select"><option value="">{% trans "All" %}</option>{% for value, label in statuses %}<option value="{{ value }}" {% if value == status %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+  <div class="col-md-3"><button class="btn btn-outline-primary w-100" type="submit">{% trans "Filter" %}</button></div>
+</form>
+
+<div class="card table-card">
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <caption class="visually-hidden">{% trans "Seller shops" %}</caption>
+      <thead><tr><th scope="col">{% trans "Shop" %}</th><th scope="col">{% trans "Owner" %}</th><th scope="col">{% trans "Products" %}</th><th scope="col">{% trans "Status" %}</th><th scope="col">{% trans "Change status" %}</th></tr></thead>
+      <tbody>
+        {% for seller in page_obj %}
+        <tr>
+          <td><div class="fw-semibold">{{ seller.shop_name }}</div><div class="caption">{{ seller.business_name }}</div>{% if seller.description %}<div class="caption line-clamp-2" style="max-width:22rem">{{ seller.description }}</div>{% endif %}</td>
+          <td>{{ seller.user.email }}<div class="caption">{% trans "Joined" %} {{ seller.created_at|date:"j M Y" }}</div></td>
+          <td>{{ seller.product_total }}</td>
+          <td>{% include "includes/status_badge.html" with value=seller.status label=seller.get_status_display %}{% if seller.status_note %}<div class="caption">{{ seller.status_note }}</div>{% endif %}</td>
+          <td style="min-width:16rem">
+            <form method="post" action="{% url 'dashboard:seller_status' seller.pk %}" class="d-flex flex-column gap-1">
+              {% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}">
+              <label class="visually-hidden" for="st-{{ seller.pk }}">{% trans "New status" %}</label>
+              <select id="st-{{ seller.pk }}" name="status" class="form-select form-select-sm">{% for value, label in statuses %}<option value="{{ value }}" {% if value == seller.status %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+              <label class="visually-hidden" for="nt-{{ seller.pk }}">{% trans "Note to seller" %}</label>
+              <input id="nt-{{ seller.pk }}" name="note" class="form-control form-control-sm" maxlength="300" placeholder="{% trans 'Note to seller (optional)' %}" value="{{ seller.status_note }}">
+              <button class="btn btn-sm btn-primary" type="submit">{% trans "Save" %}</button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}<tr><td colspan="5" class="text-center text-muted py-4">{% trans "No sellers found." %}</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% include "includes/pagination.html" %}
+{% endblock %}

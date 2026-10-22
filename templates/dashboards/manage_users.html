@@ -1,0 +1,41 @@
+{% extends "layouts/account.html" %}
+{% load i18n %}
+{% block title %}{% trans "Manage users" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "Users" %}{% endblock %}
+
+{% block account_content %}
+<form method="get" class="panel mb-3 row g-2 align-items-end">
+  <div class="col-md-5"><label class="form-label" for="q">{% trans "Search" %}</label><input id="q" class="form-control" type="search" name="q" value="{{ q }}" maxlength="100" placeholder="{% trans 'Name, username or email' %}"></div>
+  <div class="col-md-4"><label class="form-label" for="role">{% trans "Role" %}</label>
+    <select id="role" name="role" class="form-select"><option value="">{% trans "All roles" %}</option>{% for value, label in roles %}<option value="{{ value }}" {% if value == role %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+  <div class="col-md-3"><button class="btn btn-outline-primary w-100" type="submit">{% trans "Filter" %}</button></div>
+</form>
+
+<div class="card table-card">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <caption class="visually-hidden">{% trans "All user accounts" %}</caption>
+      <thead><tr><th scope="col">{% trans "User" %}</th><th scope="col">{% trans "Role" %}</th><th scope="col">{% trans "Joined" %}</th><th scope="col">{% trans "Status" %}</th><th scope="col"></th></tr></thead>
+      <tbody>
+        {% for u in page_obj %}
+        <tr>
+          <td><div class="fw-semibold">{{ u.display_name }}</div><div class="caption">{{ u.username }} &middot; {{ u.email }}</div></td>
+          <td>{{ u.get_role_display }}</td>
+          <td class="text-nowrap">{{ u.date_joined|date:"j M Y" }}</td>
+          <td>{% if u.is_active %}{% include "includes/status_badge.html" with value="active" label=_("Active") %}{% else %}{% include "includes/status_badge.html" with value="inactive" label=_("Deactivated") %}{% endif %}</td>
+          <td class="text-end">
+            {% if u.pk != user.pk %}
+            <form method="post" action="{% url 'dashboard:user_toggle_active' u.pk %}" data-confirm="{% if u.is_active %}{% trans 'Deactivate this account? The user will no longer be able to sign in.' %}{% else %}{% trans 'Reactivate this account?' %}{% endif %}">
+              {% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}">
+              <button type="submit" class="btn btn-sm {% if u.is_active %}btn-outline-danger{% else %}btn-outline-primary{% endif %}">{% if u.is_active %}{% trans "Deactivate" %}{% else %}{% trans "Activate" %}{% endif %}</button>
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}<tr><td colspan="5" class="text-center text-muted py-4">{% trans "No users match your search." %}</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% include "includes/pagination.html" %}
+{% endblock %}

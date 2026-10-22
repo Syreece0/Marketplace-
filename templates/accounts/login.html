@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Sign in" %} - {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="card auth-card">
+    <h1 class="h3 mb-1">{% trans "Welcome back" %}</h1>
+    <p class="text-muted mb-4">{% trans "Sign in to your account." %}</p>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}">
+      {% include "includes/form.html" %}
+      <button type="submit" class="btn btn-primary w-100">{% trans "Sign in" %}</button>
+    </form>
+    <div class="d-flex justify-content-between mt-3 small">
+      <a href="{% url 'accounts:password_reset' %}">{% trans "Forgot your password?" %}</a>
+      <a href="{% url 'accounts:register' %}">{% trans "Create an account" %}</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Open a seller account" %} - {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="card auth-card" style="max-width: 640px;">
+    <h1 class="h3 mb-1">{% trans "Open a seller account" %}</h1>
+    <p class="text-muted mb-3">{% trans "Create your shop. An administrator reviews every new shop before it can list products." %}</p>
+    <div class="alert alert-info" role="note">
+      <i class="bi bi-info-circle me-1" aria-hidden="true"></i>
+      {% trans "After registering you can sign in straight away, but you can only add products once your shop is approved." %}
+    </div>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% include "includes/form.html" %}
+      <button type="submit" class="btn btn-primary w-100">{% trans "Create seller account" %}</button>
+    </form>
+    <div class="text-center mt-3 small">
+      {% trans "Already registered?" %} <a href="{% url 'accounts:login' %}">{% trans "Sign in" %}</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

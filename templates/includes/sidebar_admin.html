@@ -1,0 +1,20 @@
+{% load i18n %}
+<a class="nav-link {% if current == 'dashboard:admin' %}active{% endif %}" href="{% url 'dashboard:admin' %}"><i class="bi bi-speedometer2" aria-hidden="true"></i> {% trans "Overview" %}</a>
+<div class="sidebar-heading">{% trans "People" %}</div>
+<a class="nav-link {% if current == 'dashboard:users' %}active{% endif %}" href="{% url 'dashboard:users' %}"><i class="bi bi-people" aria-hidden="true"></i> {% trans "Users" %}</a>
+<a class="nav-link {% if current == 'dashboard:sellers' %}active{% endif %}" href="{% url 'dashboard:sellers' %}"><i class="bi bi-shop" aria-hidden="true"></i> {% trans "Seller approvals" %}</a>
+<div class="sidebar-heading">{% trans "Catalogue" %}</div>
+<a class="nav-link {% if current == 'dashboard:products' %}active{% endif %}" href="{% url 'dashboard:products' %}"><i class="bi bi-box-seam" aria-hidden="true"></i> {% trans "Products" %}</a>
+<a class="nav-link {% if current == 'dashboard:categories' or current == 'dashboard:category_edit' %}active{% endif %}" href="{% url 'dashboard:categories' %}"><i class="bi bi-tags" aria-hidden="true"></i> {% trans "Categories" %}</a>
+<a class="nav-link {% if current == 'dashboard:reviews' %}active{% endif %}" href="{% url 'dashboard:reviews' %}"><i class="bi bi-star" aria-hidden="true"></i> {% trans "Reviews" %}</a>
+<div class="sidebar-heading">{% trans "Activity" %}</div>
+<a class="nav-link {% if current == 'dashboard:requests' %}active{% endif %}" href="{% url 'dashboard:requests' %}"><i class="bi bi-chat-left-text" aria-hidden="true"></i> {% trans "Requests" %}</a>
+<a class="nav-link {% if current == 'dashboard:orders' or current == 'dashboard:order_detail' %}active{% endif %}" href="{% url 'dashboard:orders' %}"><i class="bi bi-receipt" aria-hidden="true"></i> {% trans "Orders" %}</a>
+<a class="nav-link {% if current == 'dashboard:reports' %}active{% endif %}" href="{% url 'dashboard:reports' %}"><i class="bi bi-flag" aria-hidden="true"></i> {% trans "Reports" %}</a>
+<a class="nav-link {% if current == 'dashboard:statistics' %}active{% endif %}" href="{% url 'dashboard:statistics' %}"><i class="bi bi-bar-chart" aria-hidden="true"></i> {% trans "Statistics" %}</a>
+<div class="sidebar-heading">{% trans "Account" %}</div>
+<a class="nav-link {% if current == 'notifications:list' %}active{% endif %}" href="{% url 'notifications:list' %}"><i class="bi bi-bell" aria-hidden="true"></i> {% trans "Notifications" %}</a>
+<a class="nav-link {% if current == 'accounts:profile' or current == 'accounts:profile_edit' or current == 'accounts:password_change' %}active{% endif %}" href="{% url 'accounts:profile' %}"><i class="bi bi-person" aria-hidden="true"></i> {% trans "Profile" %}</a>
+{% if user.is_staff %}
+<a class="nav-link" href="{% url 'admin:index' %}"><i class="bi bi-gear" aria-hidden="true"></i> {% trans "Django admin" %}</a>
+{% endif %}

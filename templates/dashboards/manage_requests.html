@@ -1,0 +1,30 @@
+{% extends "layouts/account.html" %}
+{% load i18n %}
+{% block title %}{% trans "Product requests" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "Product requests" %}{% endblock %}
+
+{% block account_content %}
+<form method="get" class="panel mb-3 d-flex flex-wrap gap-2 align-items-end">
+  <div><label class="form-label" for="status">{% trans "Status" %}</label>
+    <select id="status" name="status" class="form-select"><option value="">{% trans "All" %}</option>{% for value, label in statuses %}<option value="{{ value }}" {% if value == status %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+  <button class="btn btn-outline-primary" type="submit">{% trans "Filter" %}</button>
+</form>
+<div class="card table-card">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <caption class="visually-hidden">{% trans "All product requests" %}</caption>
+      <thead><tr><th scope="col">{% trans "Product" %}</th><th scope="col">{% trans "Customer" %}</th><th scope="col">{% trans "Seller" %}</th><th scope="col">{% trans "Qty" %}</th><th scope="col">{% trans "Status" %}</th><th scope="col">{% trans "Sent" %}</th></tr></thead>
+      <tbody>
+        {% for req in page_obj %}
+        <tr>
+          <td>{{ req.product.name }}</td><td>{{ req.customer.display_name }}</td><td>{{ req.seller.shop_name }}</td><td>{{ req.quantity }}</td>
+          <td>{% include "includes/status_badge.html" with value=req.status label=req.get_status_display %}</td>
+          <td class="text-nowrap">{{ req.created_at|date:"j M Y" }}</td>
+        </tr>
+        {% empty %}<tr><td colspan="6" class="text-center text-muted py-4">{% trans "No requests found." %}</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% include "includes/pagination.html" %}
+{% endblock %}

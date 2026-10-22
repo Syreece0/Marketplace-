@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Privacy policy" %} - {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container py-4" style="max-width: 820px;">
+  <h1 class="mb-3">{% trans "Privacy policy" %}</h1>
+  <div class="panel">
+    <p class="text-muted small">{% trans "Template text: have this policy reviewed by a qualified professional and adapt it to your business and local data-protection law before launch." %}</p>
+    <h2 class="h5">{% trans "What we collect" %}</h2>
+    <p>{% trans "Account details (name, email, phone number), delivery details you enter at checkout, your orders and requests, and technical data needed to keep the site secure." %}</p>
+    <h2 class="h5">{% trans "How we use it" %}</h2>
+    <p>{% trans "To run your account, process orders, let buyers and sellers communicate about orders and requests, prevent fraud and improve the service." %}</p>
+    <h2 class="h5">{% trans "Who sees it" %}</h2>
+    <p>{% trans "Sellers see the delivery details of paid orders containing their products. Your email and phone number are never shown on public pages." %}</p>
+    <h2 class="h5">{% trans "Payments" %}</h2>
+    <p>{% trans "We never store card numbers. Payments are handled by the payment provider." %}</p>
+    <h2 class="h5">{% trans "Your choices" %}</h2>
+    <p class="mb-0">{% trans "You can update your profile at any time. Contact us to ask for your data to be corrected or deleted." %}</p>
+  </div>
+</div>
+{% endblock %}

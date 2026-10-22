@@ -1,0 +1,54 @@
+{% extends "layouts/account.html" %}
+{% load i18n core_extras %}
+{% block title %}{% trans "Marketplace statistics" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "Marketplace statistics" %}{% endblock %}
+
+{% block account_content %}
+<h2 class="h5">{% trans "All time" %}</h2>
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">{% trans "Users" as l %}{% include "includes/stat_card.html" with label=l value=totals.users icon="bi-people" %}</div>
+  <div class="col-6 col-md-3">{% trans "Approved shops" as l %}{% include "includes/stat_card.html" with label=l value=totals.sellers icon="bi-shop" %}</div>
+  <div class="col-6 col-md-3">{% trans "Published listings" as l %}{% include "includes/stat_card.html" with label=l value=totals.products icon="bi-box-seam" %}</div>
+  <div class="col-6 col-md-3">{% trans "Paid revenue" as l %}{% include "includes/stat_card.html" with label=l value=totals.revenue|money icon="bi-cash-coin" %}</div>
+  <div class="col-6 col-md-3">{% trans "Orders" as l %}{% include "includes/stat_card.html" with label=l value=totals.orders icon="bi-receipt" %}</div>
+  <div class="col-6 col-md-3">{% trans "Paid orders" as l %}{% include "includes/stat_card.html" with label=l value=totals.paid_orders icon="bi-check2-circle" %}</div>
+  <div class="col-6 col-md-3">{% trans "Requests" as l %}{% include "includes/stat_card.html" with label=l value=totals.requests icon="bi-chat-left-text" %}</div>
+  <div class="col-6 col-md-3">{% trans "Reviews" as l %}{% include "includes/stat_card.html" with label=l value=totals.reviews icon="bi-star" %}</div>
+</div>
+
+<h2 class="h5">{% trans "Last 30 days" %}</h2>
+<div class="row g-3 mb-4">
+  <div class="col-md-4">{% trans "New users" as l %}{% include "includes/stat_card.html" with label=l value=last_30.new_users icon="bi-person-plus" %}</div>
+  <div class="col-md-4">{% trans "Orders" as l %}{% include "includes/stat_card.html" with label=l value=last_30.orders icon="bi-receipt" %}</div>
+  <div class="col-md-4">{% trans "Paid revenue" as l %}{% include "includes/stat_card.html" with label=l value=last_30.revenue|money icon="bi-cash-coin" %}</div>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-6">
+    <div class="panel h-100"><h2 class="h5">{% trans "Top sellers by revenue" %}</h2>
+      <table class="table table-sm mb-0"><caption class="visually-hidden">{% trans "Top sellers" %}</caption>
+        <thead><tr><th scope="col">{% trans "Shop" %}</th><th scope="col">{% trans "Units" %}</th><th scope="col">{% trans "Revenue" %}</th></tr></thead>
+        <tbody>{% for row in top_sellers %}<tr><td>{{ row.seller__shop_name }}</td><td>{{ row.units }}</td><td>{{ row.revenue|money }}</td></tr>
+        {% empty %}<tr><td colspan="3" class="text-muted">{% trans "No paid orders yet." %}</td></tr>{% endfor %}</tbody></table>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="panel h-100"><h2 class="h5">{% trans "Largest categories" %}</h2>
+      <table class="table table-sm mb-0"><caption class="visually-hidden">{% trans "Largest categories" %}</caption>
+        <thead><tr><th scope="col">{% trans "Category" %}</th><th scope="col">{% trans "Published listings" %}</th></tr></thead>
+        <tbody>{% for c in top_categories %}<tr><td>{{ c.name }}</td><td>{{ c.product_total }}</td></tr>
+        {% empty %}<tr><td colspan="2" class="text-muted">{% trans "No published listings yet." %}</td></tr>{% endfor %}</tbody></table>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="panel"><h2 class="h5">{% trans "Orders by status" %}</h2>
+      <table class="table table-sm mb-0"><tbody>{% for row in order_status %}<tr><td>{{ row.status }}</td><td>{{ row.n }}</td></tr>{% empty %}<tr><td class="text-muted">{% trans "No orders yet." %}</td></tr>{% endfor %}</tbody></table>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="panel"><h2 class="h5">{% trans "Payments by status" %}</h2>
+      <table class="table table-sm mb-0"><tbody>{% for row in payment_status %}<tr><td>{{ row.status }}</td><td>{{ row.n }}</td></tr>{% empty %}<tr><td class="text-muted">{% trans "No payments yet." %}</td></tr>{% endfor %}</tbody></table>
+    </div>
+  </div>
+</div>
+{% endblock %}

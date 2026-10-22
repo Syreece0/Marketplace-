@@ -1,0 +1,40 @@
+{% load i18n static core_extras %}
+<article class="card product-card">
+  <div class="media">
+    <a href="{{ product.get_absolute_url }}" tabindex="-1">
+      <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/placeholder.svg' %}{% endif %}"
+           alt="{{ product.name }}" loading="lazy" width="400" height="300"
+           onerror="this.onerror=null;this.src='{% static 'images/placeholder.svg' %}';">
+    </a>
+    {% if not product.in_stock %}<span class="product-flag">{% trans "Unavailable" %}</span>{% endif %}
+
+    {% if user.is_authenticated %}
+      {% if user.is_customer %}
+      <form method="post" action="{% url 'wishlist:toggle' product.pk %}" data-wishlist-form>
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <button type="submit" class="btn btn-icon wishlist-btn {% if product.pk in wishlisted_ids %}is-saved{% endif %}"
+                aria-pressed="{% if product.pk in wishlisted_ids %}true{% else %}false{% endif %}"
+                aria-label="{% blocktrans with name=product.name %}Save {{ name }} to wishlist{% endblocktrans %}" data-no-loading>
+          <i class="bi {% if product.pk in wishlisted_ids %}bi-heart-fill{% else %}bi-heart{% endif %}" aria-hidden="true"></i>
+        </button>
+      </form>
+      {% endif %}
+    {% else %}
+      <a class="btn btn-icon wishlist-btn" href="{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}"
+         aria-label="{% trans 'Sign in to save this product' %}"><i class="bi bi-heart" aria-hidden="true"></i></a>
+    {% endif %}
+  </div>
+  <div class="card-body">
+    <div class="caption mb-1">{{ product.category.name }}</div>
+    <a class="product-name" href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+    <div class="caption mt-1"><i class="bi bi-shop" aria-hidden="true"></i> {{ product.seller.shop_name }}</div>
+    <div class="d-flex justify-content-between align-items-center mt-2">
+      <span class="price">{{ product.price|money }}</span>
+      <span class="caption">{{ product.get_condition_display }}</span>
+    </div>
+    <div class="card-actions">
+      <a class="btn btn-outline-primary btn-sm w-100" href="{{ product.get_absolute_url }}">{% trans "View details" %}</a>
+    </div>
+  </div>
+</article>

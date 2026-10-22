@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% if category %}{{ category.name }}{% else %}{% trans "Marketplace" %}{% endif %} - {{ SITE_NAME }}{% endblock %}
+{% block meta_description %}{% if category %}{% blocktrans with name=category.name %}Browse {{ name }} from approved sellers.{% endblocktrans %}{% else %}{% trans "Search and filter products from approved sellers." %}{% endif %}{% endblock %}
+{% block canonical %}{{ request.scheme }}://{{ request.get_host }}{{ request.path }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'core:home' %}">{% trans "Home" %}</a></li>
+      {% if category %}
+      <li class="breadcrumb-item"><a href="{% url 'products:list' %}">{% trans "Marketplace" %}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ category.name }}</li>
+      {% else %}
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Marketplace" %}</li>
+      {% endif %}
+    </ol>
+  </nav>
+
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <h1 class="h2 mb-0">{% if category %}{{ category.name }}{% else %}{% trans "Marketplace" %}{% endif %}</h1>
+    <span class="text-muted" aria-live="polite">{% blocktrans count counter=page_obj.paginator.count %}{{ counter }} product{% plural %}{{ counter }} products{% endblocktrans %}</span>
+  </div>
+  {% if category and category.description %}<p class="text-muted">{{ category.description }}</p>{% endif %}
+
+  <div class="row g-4">
+    <div class="col-lg-3">
+      <button class="btn btn-outline-primary w-100 d-lg-none mb-3" type="button" data-bs-toggle="collapse"
+              data-bs-target="#filters" aria-expanded="false" aria-controls="filters" data-no-loading>
+        <i class="bi bi-funnel" aria-hidden="true"></i> {% trans "Search and filters" %}
+      </button>
+      <div class="collapse d-lg-block" id="filters">
+        <form method="get" class="panel" aria-label="{% trans 'Search and filters' %}">
+          {% include "includes/form_field.html" with field=form.q %}
+          {% if not category %}{% include "includes/form_field.html" with field=form.category %}{% endif %}
+          {% include "includes/form_field.html" with field=form.condition %}
+          <div class="row g-2">
+            <div class="col-6">{% include "includes/form_field.html" with field=form.min_price %}</div>
+            <div class="col-6">{% include "includes/form_field.html" with field=form.max_price %}</div>
+          </div>
+          {% include "includes/form_field.html" with field=form.sort %}
+          {% include "includes/form_field.html" with field=form.in_stock %}
+          <button class="btn btn-primary w-100" type="submit">{% trans "Apply filters" %}</button>
+          <a class="btn btn-link w-100 mt-1" href="{{ request.path }}">{% trans "Clear all" %}</a>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-lg-9">
+      {% if page_obj.object_list %}
+      <div class="row g-3 row-cols-2 row-cols-md-3">
+        {% for product in page_obj %}
+        <div class="col">{% include "includes/product_card.html" %}</div>
+        {% endfor %}
+      </div>
+      {% include "includes/pagination.html" %}
+      {% else %}
+      <div class="card">
+        {% trans "No products found" as empty_title %}
+        {% trans "Try different keywords or remove some filters." as empty_text %}
+        {% url 'products:list' as list_url %}
+        {% trans "See all products" as empty_action %}
+        {% include "includes/empty_state.html" with icon="bi-search" title=empty_title text=empty_text url=list_url action=empty_action %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

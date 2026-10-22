@@ -1,0 +1,24 @@
+{% extends "layouts/account.html" %}
+{% load i18n %}
+{% block title %}{% trans "Shop settings" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "Shop settings" %}{% endblock %}
+{% block page_actions %}
+  {% if user.seller_profile.is_approved %}
+  <a class="btn btn-outline-primary" href="{{ user.seller_profile.get_absolute_url }}"><i class="bi bi-eye" aria-hidden="true"></i> {% trans "View public shop" %}</a>
+  {% endif %}
+{% endblock %}
+
+{% block account_content %}
+<div class="panel mb-3 d-flex flex-wrap align-items-center gap-2">
+  <strong>{% trans "Shop status:" %}</strong>
+  {% include "includes/status_badge.html" with value=user.seller_profile.status label=user.seller_profile.get_status_display %}
+  {% if user.seller_profile.status_note %}<span class="text-muted">{{ user.seller_profile.status_note }}</span>{% endif %}
+</div>
+<div class="panel" style="max-width: 700px;">
+  <form method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {% include "includes/form.html" %}
+    <button type="submit" class="btn btn-primary">{% trans "Save settings" %}</button>
+  </form>
+</div>
+{% endblock %}

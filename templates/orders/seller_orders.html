@@ -1,0 +1,56 @@
+{% extends "layouts/account.html" %}
+{% load i18n core_extras %}
+{% block title %}{% trans "Orders" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "Orders to fulfil" %}{% endblock %}
+
+{% block account_content %}
+<form method="get" class="panel mb-3 d-flex flex-wrap gap-2 align-items-end">
+  <div>
+    <label class="form-label" for="status">{% trans "Status" %}</label>
+    <select id="status" class="form-select" name="status">
+      <option value="">{% trans "All" %}</option>
+      {% for value, label in statuses %}<option value="{{ value }}" {% if value == status %}selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+  </div>
+  <button class="btn btn-outline-primary" type="submit">{% trans "Filter" %}</button>
+</form>
+
+{% if page_obj.object_list %}
+<div class="card table-card">
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <caption class="visually-hidden">{% trans "Paid order items from your shop" %}</caption>
+      <thead><tr><th scope="col">{% trans "Order" %}</th><th scope="col">{% trans "Item" %}</th><th scope="col">{% trans "Qty" %}</th><th scope="col">{% trans "Total" %}</th><th scope="col">{% trans "Deliver to" %}</th><th scope="col">{% trans "Status" %}</th><th scope="col">{% trans "Update" %}</th></tr></thead>
+      <tbody>
+        {% for item in page_obj %}
+        <tr>
+          <td class="text-nowrap">{{ item.order.reference }}<div class="caption">{{ item.order.created_at|date:"j M Y" }}</div></td>
+          <td>{{ item.product_name }}</td>
+          <td>{{ item.quantity }}</td>
+          <td class="text-nowrap">{{ item.line_total|money }}</td>
+          <td class="small">{{ item.order.shipping_name }}<br>{{ item.order.shipping_address }}, {{ item.order.shipping_city }}<br>{{ item.order.shipping_phone }}</td>
+          <td>{% include "includes/status_badge.html" with value=item.fulfillment_status label=item.get_fulfillment_status_display %}</td>
+          <td>
+            {% if item.fulfillment_status == 'pending' %}
+              <form method="post" action="{% url 'orders:seller_item_update' item.pk %}">{% csrf_token %}<input type="hidden" name="status" value="processing"><input type="hidden" name="next" value="{{ request.get_full_path }}"><button class="btn btn-sm btn-outline-primary" type="submit">{% trans "Start processing" %}</button></form>
+            {% elif item.fulfillment_status == 'processing' %}
+              <form method="post" action="{% url 'orders:seller_item_update' item.pk %}">{% csrf_token %}<input type="hidden" name="status" value="shipped"><input type="hidden" name="next" value="{{ request.get_full_path }}"><button class="btn btn-sm btn-outline-primary" type="submit">{% trans "Mark shipped" %}</button></form>
+            {% elif item.fulfillment_status == 'shipped' %}
+              <form method="post" action="{% url 'orders:seller_item_update' item.pk %}">{% csrf_token %}<input type="hidden" name="status" value="delivered"><input type="hidden" name="next" value="{{ request.get_full_path }}"><button class="btn btn-sm btn-outline-primary" type="submit">{% trans "Mark delivered" %}</button></form>
+            {% else %}<span class="text-muted">-</span>{% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% include "includes/pagination.html" %}
+{% else %}
+<div class="card">
+  {% trans "No orders yet" as empty_title %}
+  {% trans "Paid orders containing your products will appear here." as empty_text %}
+  {% include "includes/empty_state.html" with icon="bi-receipt" title=empty_title text=empty_text %}
+</div>
+{% endif %}
+{% endblock %}

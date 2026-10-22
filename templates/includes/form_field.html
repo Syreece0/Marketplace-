@@ -1,0 +1,23 @@
+{% comment %}Renders one form field with label, help text and accessible error messages.
+Usage: {% include "includes/form_field.html" with field=form.name %}{% endcomment %}
+{% if field.is_hidden %}
+  {{ field }}
+{% else %}
+<div class="mb-3">
+  {% if field.field.widget.input_type == "checkbox" %}
+    <div class="form-check">
+      {{ field }}
+      <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+    </div>
+  {% else %}
+    <label class="form-label" for="{{ field.id_for_label }}">
+      {{ field.label }}{% if field.field.required %}<span class="required-mark" aria-hidden="true">*</span><span class="visually-hidden"> (required)</span>{% endif %}
+    </label>
+    {{ field }}
+  {% endif %}
+  {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+  {% for error in field.errors %}
+    <div class="field-error" role="alert"><i class="bi bi-exclamation-circle" aria-hidden="true"></i><span><span class="visually-hidden">Error: </span>{{ error }}</span></div>
+  {% endfor %}
+</div>
+{% endif %}

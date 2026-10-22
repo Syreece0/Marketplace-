@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% comment %}Shared layout for every signed-in area (customer, seller, administrator).
+Child templates fill ``account_content`` and may set ``page_heading``.{% endcomment %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="account-layout">
+    <aside class="account-sidebar" aria-label="{% trans 'Account menu' %}">
+      <button class="btn btn-outline-primary w-100 d-lg-none mb-2" type="button" data-bs-toggle="collapse"
+              data-bs-target="#sidebarMenu" aria-expanded="false" aria-controls="sidebarMenu" data-no-loading>
+        <i class="bi bi-list" aria-hidden="true"></i> {% trans "Menu" %}
+      </button>
+      <div class="collapse d-lg-block" id="sidebarMenu">
+        <div class="panel p-2">
+          <div class="px-2 py-2 mb-1 border-bottom">
+            <div class="fw-semibold text-truncate">{{ user.display_name }}</div>
+            <div class="caption">
+              {% if user.is_marketplace_admin %}{% trans "Administrator" %}
+              {% elif user.is_seller %}{% trans "Seller" %}{% else %}{% trans "Customer" %}{% endif %}
+            </div>
+          </div>
+          {% with current=request.resolver_match.view_name %}
+          <nav class="sidebar-nav nav flex-column" aria-label="{% trans 'Dashboard navigation' %}">
+            {% if user.is_marketplace_admin %}
+              {% include "includes/sidebar_admin.html" %}
+            {% elif user.is_seller %}
+              {% include "includes/sidebar_seller.html" %}
+            {% else %}
+              {% include "includes/sidebar_customer.html" %}
+            {% endif %}
+          </nav>
+          {% endwith %}
+        </div>
+      </div>
+    </aside>
+
+    <section class="min-w-0" aria-labelledby="page-heading">
+      {% block page_header %}
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h1 id="page-heading" class="h2 mb-0">{% block page_heading %}{% endblock %}</h1>
+        <div>{% block page_actions %}{% endblock %}</div>
+      </div>
+      {% endblock %}
+      {% block account_content %}{% endblock %}
+    </section>
+  </div>
+</div>
+{% endblock %}

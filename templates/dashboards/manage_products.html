@@ -1,0 +1,50 @@
+{% extends "layouts/account.html" %}
+{% load i18n static core_extras %}
+{% block title %}{% trans "Manage products" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "Product listings" %}{% endblock %}
+
+{% block account_content %}
+<form method="get" class="panel mb-3 row g-2 align-items-end">
+  <div class="col-md-5"><label class="form-label" for="q">{% trans "Search" %}</label><input id="q" class="form-control" type="search" name="q" value="{{ q }}" maxlength="100"></div>
+  <div class="col-md-4"><label class="form-label" for="status">{% trans "Status" %}</label>
+    <select id="status" name="status" class="form-select"><option value="">{% trans "All" %}</option>{% for value, label in statuses %}<option value="{{ value }}" {% if value == status %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+  <div class="col-md-3"><button class="btn btn-outline-primary w-100" type="submit">{% trans "Filter" %}</button></div>
+</form>
+
+<div class="card table-card">
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <caption class="visually-hidden">{% trans "Product listings" %}</caption>
+      <thead><tr><th scope="col">{% trans "Product" %}</th><th scope="col">{% trans "Seller" %}</th><th scope="col">{% trans "Price" %}</th><th scope="col">{% trans "Status" %}</th><th scope="col">{% trans "Moderate" %}</th></tr></thead>
+      <tbody>
+        {% for product in page_obj %}
+        <tr>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/placeholder.svg' %}{% endif %}" alt="" width="56" height="42" class="rounded" style="object-fit:cover" loading="lazy">
+              <div class="min-w-0"><a class="fw-semibold" href="{{ product.get_absolute_url }}">{{ product.name }}</a><div class="caption">{{ product.category.name }}</div></div>
+            </div>
+          </td>
+          <td>{{ product.seller.shop_name }}</td>
+          <td class="text-nowrap">{{ product.price|money }}</td>
+          <td>{% include "includes/status_badge.html" with value=product.status label=product.get_status_display %}{% if product.rejection_reason %}<div class="caption">{{ product.rejection_reason }}</div>{% endif %}</td>
+          <td style="min-width:15rem">
+            <form method="post" action="{% url 'dashboard:product_moderate' product.pk %}" class="d-flex flex-column gap-1">
+              {% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}">
+              <label class="visually-hidden" for="ac-{{ product.pk }}">{% trans "Action" %}</label>
+              <select id="ac-{{ product.pk }}" name="action" class="form-select form-select-sm">
+                <option value="publish">{% trans "Publish" %}</option><option value="reject">{% trans "Reject" %}</option><option value="unpublish">{% trans "Send back to pending" %}</option>
+              </select>
+              <label class="visually-hidden" for="rs-{{ product.pk }}">{% trans "Reason" %}</label>
+              <input id="rs-{{ product.pk }}" name="reason" class="form-control form-control-sm" maxlength="300" placeholder="{% trans 'Reason (required to reject)' %}">
+              <button class="btn btn-sm btn-primary" type="submit">{% trans "Apply" %}</button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}<tr><td colspan="5" class="text-center text-muted py-4">{% trans "No listings found." %}</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% include "includes/pagination.html" %}
+{% endblock %}

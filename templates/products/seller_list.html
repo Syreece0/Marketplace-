@@ -1,0 +1,77 @@
+{% extends "layouts/account.html" %}
+{% load i18n static core_extras %}
+{% block title %}{% trans "My products" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "My products" %}{% endblock %}
+{% block page_actions %}<a class="btn btn-primary" href="{% url 'products:create' %}"><i class="bi bi-plus-lg" aria-hidden="true"></i> {% trans "Add product" %}</a>{% endblock %}
+
+{% block account_content %}
+<form method="get" class="panel mb-3 row g-2 align-items-end">
+  <div class="col-sm-6 col-md-5">
+    <label class="form-label" for="q">{% trans "Search" %}</label>
+    <input id="q" class="form-control" type="search" name="q" value="{{ q }}" maxlength="100">
+  </div>
+  <div class="col-sm-4 col-md-4">
+    <label class="form-label" for="status">{% trans "Status" %}</label>
+    <select id="status" class="form-select" name="status">
+      <option value="">{% trans "All statuses" %}</option>
+      {% for value, label in statuses %}<option value="{{ value }}" {% if value == status %}selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+  </div>
+  <div class="col-sm-2 col-md-3"><button class="btn btn-outline-primary w-100" type="submit">{% trans "Filter" %}</button></div>
+</form>
+
+{% if page_obj.object_list %}
+<div class="card table-card">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <caption class="visually-hidden">{% trans "Your product listings" %}</caption>
+      <thead>
+        <tr>
+          <th scope="col">{% trans "Product" %}</th><th scope="col">{% trans "Price" %}</th><th scope="col">{% trans "Stock" %}</th>
+          <th scope="col">{% trans "Approval" %}</th><th scope="col">{% trans "Availability" %}</th><th scope="col"><span class="visually-hidden">{% trans "Actions" %}</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in page_obj %}
+        <tr>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/placeholder.svg' %}{% endif %}" alt="" width="56" height="42" class="rounded" style="object-fit:cover" loading="lazy">
+              <div class="min-w-0">
+                <a class="fw-semibold" href="{% url 'products:edit' product.slug %}">{{ product.name }}</a>
+                <div class="caption">{{ product.category.name }}</div>
+                {% if product.status == 'rejected' and product.rejection_reason %}<div class="caption text-danger">{% trans "Reason:" %} {{ product.rejection_reason }}</div>{% endif %}
+              </div>
+            </div>
+          </td>
+          <td>{{ product.price|money }}</td>
+          <td>{{ product.quantity }}</td>
+          <td>{% include "includes/status_badge.html" with value=product.status label=product.get_status_display %}</td>
+          <td>{% include "includes/status_badge.html" with value=product.availability label=product.get_availability_display %}</td>
+          <td class="text-end text-nowrap">
+            <a class="btn btn-sm btn-outline-primary" href="{% url 'products:edit' product.slug %}">{% trans "Edit" %}</a>
+            <a class="btn btn-sm btn-outline-secondary" href="{{ product.get_absolute_url }}">{% trans "Preview" %}</a>
+            <form method="post" action="{% url 'products:toggle_availability' product.slug %}" class="d-inline">
+              {% csrf_token %}<button type="submit" class="btn btn-sm btn-outline-secondary">{% if product.availability == 'available' %}{% trans "Pause" %}{% else %}{% trans "Resume" %}{% endif %}</button>
+            </form>
+            <form method="post" action="{% url 'products:delete' product.slug %}" class="d-inline" data-confirm="{% blocktrans with name=product.name %}Delete &quot;{{ name }}&quot;? This cannot be undone.{% endblocktrans %}">
+              {% csrf_token %}<button type="submit" class="btn btn-sm btn-outline-danger">{% trans "Delete" %}</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% include "includes/pagination.html" %}
+{% else %}
+<div class="card">
+  {% trans "No products yet" as empty_title %}
+  {% trans "Add your first product. It will be reviewed by an administrator before it goes live." as empty_text %}
+  {% url 'products:create' as create_url %}
+  {% trans "Add a product" as empty_action %}
+  {% include "includes/empty_state.html" with icon="bi-box-seam" title=empty_title text=empty_text url=create_url action=empty_action %}
+</div>
+{% endif %}
+{% endblock %}

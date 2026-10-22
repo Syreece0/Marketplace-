@@ -1,0 +1,52 @@
+{% extends "layouts/account.html" %}
+{% load i18n core_extras %}
+{% block title %}{% trans "My dashboard" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% blocktrans with name=user.display_name %}Hello, {{ name }}{% endblocktrans %}{% endblock %}
+{% block page_actions %}<a class="btn btn-primary" href="{% url 'products:list' %}"><i class="bi bi-search" aria-hidden="true"></i> {% trans "Browse products" %}</a>{% endblock %}
+
+{% block account_content %}
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">{% url 'wishlist:list' as u %}{% trans "Wishlist" as l %}{% include "includes/stat_card.html" with label=l value=wishlist_count icon="bi-heart" url=u %}</div>
+  <div class="col-6 col-md-3">{% url 'orders:cart' as u %}{% trans "In cart" as l %}{% include "includes/stat_card.html" with label=l value=cart_items icon="bi-bag" url=u %}</div>
+  <div class="col-6 col-md-3">{% url 'orders:list' as u %}{% trans "Orders" as l %}{% include "includes/stat_card.html" with label=l value=order_count icon="bi-receipt" url=u %}</div>
+  <div class="col-6 col-md-3">{% url 'requests_app:customer_list' as u %}{% trans "Open requests" as l %}{% include "includes/stat_card.html" with label=l value=open_requests icon="bi-chat-left-text" url=u %}</div>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-7">
+    <div class="panel h-100">
+      <div class="section-title"><h2 class="h5 mb-0">{% trans "Recent orders" %}</h2><a href="{% url 'orders:list' %}">{% trans "View all" %}</a></div>
+      {% for order in recent_orders %}
+      <div class="d-flex justify-content-between align-items-center py-2 border-bottom flex-wrap gap-1">
+        <a href="{% url 'orders:detail' order.pk %}" class="fw-semibold">{{ order.reference }}</a>
+        <span>{{ order.total_amount|money }}</span>
+        {% include "includes/status_badge.html" with value=order.status label=order.get_status_display %}
+      </div>
+      {% empty %}
+      <p class="text-muted mb-0">{% trans "You have not placed any orders yet." %}</p>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="panel mb-3">
+      <div class="section-title"><h2 class="h5 mb-0">{% trans "Recent requests" %}</h2><a href="{% url 'requests_app:customer_list' %}">{% trans "View all" %}</a></div>
+      {% for req in recent_requests %}
+      <div class="d-flex justify-content-between align-items-center py-2 border-bottom gap-2">
+        <a href="{% url 'requests_app:customer_detail' req.pk %}" class="text-truncate">{{ req.product.name }}</a>
+        {% include "includes/status_badge.html" with value=req.status label=req.get_status_display %}
+      </div>
+      {% empty %}
+      <p class="text-muted mb-0">{% trans "No requests yet." %}</p>
+      {% endfor %}
+    </div>
+    <div class="panel">
+      <div class="section-title"><h2 class="h5 mb-0">{% trans "Latest notifications" %}</h2><a href="{% url 'notifications:list' %}">{% trans "View all" %}</a></div>
+      {% for n in recent_notifications %}
+      <div class="py-2 border-bottom small {% if not n.is_read %}fw-semibold{% endif %}">{{ n.message }}</div>
+      {% empty %}
+      <p class="text-muted mb-0">{% trans "Nothing new." %}</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

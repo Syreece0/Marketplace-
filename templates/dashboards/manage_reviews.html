@@ -1,0 +1,41 @@
+{% extends "layouts/account.html" %}
+{% load i18n %}
+{% block title %}{% trans "Review moderation" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "Review moderation" %}{% endblock %}
+
+{% block account_content %}
+<form method="get" class="panel mb-3 d-flex flex-wrap gap-2 align-items-end">
+  <div><label class="form-label" for="visibility">{% trans "Show" %}</label>
+    <select id="visibility" name="visibility" class="form-select">
+      <option value="">{% trans "All reviews" %}</option>
+      <option value="visible" {% if visibility == 'visible' %}selected{% endif %}>{% trans "Visible" %}</option>
+      <option value="hidden" {% if visibility == 'hidden' %}selected{% endif %}>{% trans "Hidden" %}</option>
+    </select></div>
+  <button class="btn btn-outline-primary" type="submit">{% trans "Filter" %}</button>
+</form>
+
+<div class="card table-card">
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <caption class="visually-hidden">{% trans "Customer reviews" %}</caption>
+      <thead><tr><th scope="col">{% trans "Product" %}</th><th scope="col">{% trans "Customer" %}</th><th scope="col">{% trans "Rating" %}</th><th scope="col">{% trans "Comment" %}</th><th scope="col">{% trans "Status" %}</th><th scope="col"></th></tr></thead>
+      <tbody>
+        {% for review in page_obj %}
+        <tr>
+          <td>{{ review.product.name }}</td><td>{{ review.customer.display_name }}</td>
+          <td class="text-nowrap"><span class="stars" aria-hidden="true"><i class="bi bi-star-fill"></i></span> {{ review.rating }}/5</td>
+          <td style="max-width:24rem; white-space: pre-line;">{{ review.comment|default:"-" }}</td>
+          <td>{% if review.is_visible %}{% include "includes/status_badge.html" with value="visible" label=_("Visible") %}{% else %}{% include "includes/status_badge.html" with value="hidden" label=_("Hidden") %}{% endif %}</td>
+          <td class="text-end">
+            <form method="post" action="{% url 'dashboard:review_toggle' review.pk %}">
+              {% csrf_token %}<button class="btn btn-sm btn-outline-secondary" type="submit">{% if review.is_visible %}{% trans "Hide" %}{% else %}{% trans "Show" %}{% endif %}</button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}<tr><td colspan="6" class="text-center text-muted py-4">{% trans "No reviews found." %}</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% include "includes/pagination.html" %}
+{% endblock %}

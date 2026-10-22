@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Create your account" %} - {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="card auth-card" style="max-width: 560px;">
+    <h1 class="h3 mb-1">{% trans "Create a customer account" %}</h1>
+    <p class="text-muted mb-4">{% trans "Save favourites, send requests to sellers and order products." %}</p>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% include "includes/form.html" %}
+      {% url 'core:terms' as terms_url %}
+      <p class="small text-muted">{% blocktrans %}By creating an account you agree to our <a href="{{ terms_url }}">terms</a>.{% endblocktrans %}</p>
+      <button type="submit" class="btn btn-primary w-100">{% trans "Create account" %}</button>
+    </form>
+    <div class="text-center mt-3 small">
+      {% trans "Already have an account?" %} <a href="{% url 'accounts:login' %}">{% trans "Sign in" %}</a><br>
+      {% trans "Want to sell?" %} <a href="{% url 'accounts:register_seller' %}">{% trans "Open a seller account" %}</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

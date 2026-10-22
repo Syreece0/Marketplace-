@@ -1,0 +1,24 @@
+{% load i18n core_extras %}
+{% if page_obj.paginator.num_pages > 1 %}
+<nav aria-label="{% trans 'Pagination' %}" class="mt-4">
+  <ul class="pagination justify-content-center flex-wrap mb-0">
+    {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?{% url_replace page=page_obj.previous_page_number %}">{% trans "Previous" %}</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">{% trans "Previous" %}</span></li>
+    {% endif %}
+    {% for number in page_obj.paginator.page_range %}
+      {% if number == page_obj.number %}
+        <li class="page-item active" aria-current="page"><span class="page-link">{{ number }}</span></li>
+      {% elif number > page_obj.number|add:"-3" and number < page_obj.number|add:"3" %}
+        <li class="page-item"><a class="page-link" href="?{% url_replace page=number %}">{{ number }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?{% url_replace page=page_obj.next_page_number %}">{% trans "Next" %}</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">{% trans "Next" %}</span></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}

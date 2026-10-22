@@ -1,0 +1,79 @@
+{% extends "layouts/account.html" %}
+{% load i18n core_extras %}
+{% block title %}{{ order.reference }} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% blocktrans with ref=order.reference %}Order {{ ref }}{% endblocktrans %}{% endblock %}
+{% block page_actions %}<a class="btn btn-outline-secondary" href="{% url 'orders:list' %}">{% trans "All orders" %}</a>{% endblock %}
+
+{% block account_content %}
+<div class="row g-3">
+  <div class="col-lg-8">
+    <div class="panel mb-3">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <div>{% include "includes/status_badge.html" with value=order.status label=order.get_status_display %}
+          <span class="text-muted ms-2">{{ order.created_at|date:"j M Y, H:i" }}</span></div>
+        <strong class="price fs-4">{{ order.total_amount|money }}</strong>
+      </div>
+
+      {% if order.can_pay %}
+      <div class="alert alert-warning" role="status">
+        <p class="mb-2"><i class="bi bi-hourglass-split" aria-hidden="true"></i> {% trans "This order is waiting for payment. Items are reserved for you until it is paid or cancelled." %}</p>
+        {% if PAYMENT_IS_TEST %}<div class="test-banner mb-2">{% trans "Test mode: pressing Pay now simulates a successful payment. No real money is charged." %}</div>{% endif %}
+        <form method="post" action="{% url 'orders:pay' order.pk %}" class="d-inline">
+          {% csrf_token %}<button type="submit" class="btn btn-primary">{% trans "Pay now" %}</button>
+        </form>
+        <form method="post" action="{% url 'orders:cancel' order.pk %}" class="d-inline" data-confirm="{% trans 'Cancel this order? The items will be released.' %}">
+          {% csrf_token %}<button type="submit" class="btn btn-outline-danger">{% trans "Cancel order" %}</button>
+        </form>
+      </div>
+      {% endif %}
+
+      <h2 class="h5">{% trans "Items" %}</h2>
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <caption class="visually-hidden">{% trans "Items in this order" %}</caption>
+          <thead><tr><th scope="col">{% trans "Product" %}</th><th scope="col">{% trans "Price" %}</th><th scope="col">{% trans "Qty" %}</th><th scope="col">{% trans "Subtotal" %}</th><th scope="col">{% trans "Fulfilment" %}</th></tr></thead>
+          <tbody>
+            {% for item in order.items.all %}
+            <tr>
+              <td>
+                {% if item.product and item.product.is_public %}<a href="{{ item.product.get_absolute_url }}">{{ item.product_name }}</a>{% else %}{{ item.product_name }}{% endif %}
+                <div class="caption">{{ item.seller_name }}</div>
+                {% if order.status == 'paid' and item.product and item.product_id not in reviewed_ids and item.product.is_public %}
+                  <a class="caption" href="{{ item.product.get_absolute_url }}#reviews-title">{% trans "Write a review" %}</a>
+                {% endif %}
+              </td>
+              <td class="text-nowrap">{{ item.unit_price|money }}</td>
+              <td>{{ item.quantity }}</td>
+              <td class="text-nowrap">{{ item.line_total|money }}</td>
+              <td>{% include "includes/status_badge.html" with value=item.fulfillment_status label=item.get_fulfillment_status_display %}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="panel mb-3">
+      <h2 class="h5">{% trans "Delivery" %}</h2>
+      <address class="mb-0">
+        {{ order.shipping_name }}<br>{{ order.shipping_address }}<br>{{ order.shipping_city }}<br>{{ order.shipping_phone }}
+      </address>
+      {% if order.notes %}<p class="caption mt-2 mb-0">{% trans "Notes:" %} {{ order.notes }}</p>{% endif %}
+    </div>
+    <div class="panel">
+      <h2 class="h5">{% trans "Payments" %}</h2>
+      <ul class="list-unstyled mb-0 small">
+        {% for payment in order.payments.all %}
+        <li class="py-1 border-bottom">
+          {{ payment.reference }}<br>
+          {% include "includes/status_badge.html" with value=payment.status label=payment.get_status_display %}
+          <span class="text-muted">{{ payment.amount|money }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

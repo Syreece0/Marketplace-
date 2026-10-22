@@ -1,0 +1,98 @@
+{% load i18n %}{% get_current_language as LANGUAGE_CODE %}{% get_available_languages as LANGUAGES %}
+<header>
+  <nav class="navbar navbar-expand-lg site-navbar" aria-label="{% trans 'Main navigation' %}">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'core:home' %}">{{ SITE_NAME }}<span class="brand-dot">.</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+              aria-controls="mainNav" aria-expanded="false" aria-label="{% trans 'Toggle navigation' %}">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.namespace == 'products' and request.resolver_match.url_name in 'list category' %}active{% endif %}"
+               href="{% url 'products:list' %}">{% trans "Marketplace" %}</a>
+          </li>
+          {% if not user.is_authenticated %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'accounts:register_seller' %}">{% trans "Sell on" %} {{ SITE_NAME }}</a></li>
+          {% endif %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'core:about' %}">{% trans "About" %}</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'core:contact' %}">{% trans "Contact" %}</a></li>
+        </ul>
+
+        <form class="search-form d-flex me-lg-3 mb-2 mb-lg-0" role="search" method="get" action="{% url 'products:list' %}">
+          <label for="nav-search" class="visually-hidden">{% trans "Search products" %}</label>
+          <input id="nav-search" class="form-control" type="search" name="q" maxlength="100"
+                 placeholder="{% trans 'Search products...' %}" value="{{ request.GET.q }}">
+          <button class="btn btn-accent" type="submit" aria-label="{% trans 'Search' %}"><i class="bi bi-search"></i></button>
+        </form>
+
+        <ul class="navbar-nav align-items-lg-center mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="langMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-globe2" aria-hidden="true"></i> {{ LANGUAGE_CODE|upper }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langMenu">
+              {% for code, name in LANGUAGES %}
+              <li>
+                <form action="{% url 'set_language' %}" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                  <input type="hidden" name="language" value="{{ code }}">
+                  <button type="submit" class="dropdown-item {% if code == LANGUAGE_CODE %}active{% endif %}" data-no-loading>{{ name }}</button>
+                </form>
+              </li>
+              {% endfor %}
+            </ul>
+          </li>
+
+          {% if user.is_authenticated %}
+            {% if user.is_customer %}
+            <li class="nav-item">
+              <a class="nav-link nav-icon-link" href="{% url 'wishlist:list' %}" aria-label="{% trans 'Wishlist' %}">
+                <i class="bi bi-heart fs-5" aria-hidden="true"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-icon-link" href="{% url 'orders:cart' %}" aria-label="{% trans 'Shopping cart' %}">
+                <i class="bi bi-bag fs-5" aria-hidden="true"></i>
+                <span class="badge-count" data-count="{{ cart_count }}" aria-label="{{ cart_count }} {% trans 'items' %}">{{ cart_count }}</span>
+              </a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link nav-icon-link" href="{% url 'notifications:list' %}" aria-label="{% trans 'Notifications' %}">
+                <i class="bi bi-bell fs-5" aria-hidden="true"></i>
+                <span class="badge-count" id="notif-badge" data-count="{{ unread_notifications }}"
+                      data-url="{% url 'notifications:unread_count' %}">{{ unread_notifications }}</span>
+              </a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-circle" aria-hidden="true"></i> {{ user.display_name|truncatechars:18 }}
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                <li><a class="dropdown-item" href="{% url 'dashboard:home' %}">{% trans "Dashboard" %}</a></li>
+                <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">{% trans "My profile" %}</a></li>
+                <li><a class="dropdown-item" href="{% url 'accounts:password_change' %}">{% trans "Change password" %}</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                  <form action="{% url 'accounts:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-item" data-no-loading>{% trans "Sign out" %}</button>
+                  </form>
+                </li>
+              </ul>
+            </li>
+          {% else %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login' %}">{% trans "Sign in" %}</a></li>
+            <li class="nav-item ms-lg-2">
+              <a class="btn btn-accent btn-sm" href="{% url 'accounts:register' %}">{% trans "Create account" %}</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

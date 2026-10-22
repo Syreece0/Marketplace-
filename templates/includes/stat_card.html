@@ -1,0 +1,10 @@
+{% comment %}Dashboard summary card. Usage: with label=... value=... icon="bi-box" url=optional{% endcomment %}
+{% if url %}<a class="card stat-card" href="{{ url }}">{% else %}<div class="card stat-card">{% endif %}
+  <div class="d-flex justify-content-between align-items-start">
+    <div>
+      <div class="stat-label">{{ label }}</div>
+      <div class="stat-value">{{ value }}</div>
+    </div>
+    <i class="bi {{ icon }} stat-icon" aria-hidden="true"></i>
+  </div>
+{% if url %}</a>{% else %}</div>{% endif %}

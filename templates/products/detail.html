@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% load i18n static core_extras %}
+{% block title %}{{ product.name }} - {{ SITE_NAME }}{% endblock %}
+{% block meta_description %}{{ product.description|truncatechars:155 }}{% endblock %}
+{% block canonical %}{{ request.scheme }}://{{ request.get_host }}{{ product.get_absolute_url }}{% endblock %}
+{% block meta_extra %}
+  <meta property="og:title" content="{{ product.name }}">
+  <meta property="og:description" content="{{ product.description|truncatechars:155 }}">
+  {% if product.image and not is_preview %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ product.image.url }}">{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'core:home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'products:list' %}">{% trans "Marketplace" %}</a></li>
+      <li class="breadcrumb-item"><a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+    </ol>
+  </nav>
+
+  {% if is_preview %}
+  <div class="alert alert-warning" role="status">
+    <i class="bi bi-eye-slash me-1" aria-hidden="true"></i>
+    {% blocktrans with status=product.get_status_display %}Preview only: this listing is not public yet (status: {{ status }}).{% endblocktrans %}
+    {% if product.rejection_reason %}<br>{% trans "Reason:" %} {{ product.rejection_reason }}{% endif %}
+  </div>
+  {% endif %}
+
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <div class="gallery-main">
+        <img id="gallery-main-img" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/placeholder.svg' %}{% endif %}"
+             alt="{{ product.name }}" onerror="this.onerror=null;this.src='{% static 'images/placeholder.svg' %}';">
+      </div>
+      {% if product.image and gallery %}
+      <div class="gallery-thumbs" role="group" aria-label="{% trans 'Product images' %}">
+        <button type="button" class="active" data-gallery-thumb data-full="{{ product.image.url }}" data-no-loading aria-label="{% trans 'Show main image' %}"><img src="{{ product.image.url }}" alt=""></button>
+        {% for image in gallery %}
+        <button type="button" data-gallery-thumb data-full="{{ image.image.url }}" data-no-loading aria-label="{% blocktrans with n=forloop.counter %}Show image {{ n }}{% endblocktrans %}"><img src="{{ image.image.url }}" alt="{{ image.alt_text }}"></button>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="col-lg-6">
+      <div class="caption">{{ product.category.name }}</div>
+      <h1 class="h2 mb-2">{{ product.name }}</h1>
+      <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+        <span class="price fs-3">{{ product.price|money }}</span>
+        {% if product.in_stock %}
+          {% include "includes/status_badge.html" with value="available" label=_("In stock") %}
+        {% else %}
+          {% include "includes/status_badge.html" with value="unavailable" label=_("Unavailable") %}
+        {% endif %}
+        <span class="text-muted">{{ product.get_condition_display }}</span>
+      </div>
+      {% if review_summary.count %}
+      <p class="mb-3"><span class="stars" aria-hidden="true"><i class="bi bi-star-fill"></i></span>
+        <strong>{{ review_summary.average|floatformat:1 }}</strong>
+        <span class="text-muted">({% blocktrans count counter=review_summary.count %}{{ counter }} review{% plural %}{{ counter }} reviews{% endblocktrans %})</span></p>
+      {% endif %}
+
+      <p class="mb-3">
+        <i class="bi bi-shop" aria-hidden="true"></i> {% trans "Sold by" %}
+        {% if product.seller.is_approved %}<a href="{{ product.seller.get_absolute_url }}">{{ product.seller.shop_name }}</a>{% else %}{{ product.seller.shop_name }}{% endif %}
+      </p>
+
+      {% if product.in_stock %}<p class="text-muted small">{% blocktrans with n=product.quantity %}{{ n }} available{% endblocktrans %}</p>{% endif %}
+
+      {# ---- Customer actions ---- #}
+      {% if not is_preview %}
+        {% if user.is_authenticated and user.is_customer %}
+          {% if product.is_purchasable %}
+          <form method="post" action="{% url 'orders:cart_add' product.pk %}" class="row g-2 align-items-end mb-3">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ product.get_absolute_url }}">
+            <div class="col-4 col-sm-3">
+              <label class="form-label" for="qty">{% trans "Quantity" %}</label>
+              <input id="qty" class="form-control" type="number" name="quantity" min="1" max="{{ product.quantity }}" value="1" required>
+            </div>
+            <div class="col-8 col-sm-9"><button class="btn btn-primary w-100" type="submit"><i class="bi bi-bag-plus" aria-hidden="true"></i> {% trans "Add to cart" %}</button></div>
+          </form>
+          {% endif %}
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <form method="post" action="{% url 'wishlist:toggle' product.pk %}" data-wishlist-form>
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ product.get_absolute_url }}">
+              <button type="submit" data-no-loading class="btn btn-outline-primary wishlist-inline {% if product.pk in wishlisted_ids %}is-saved{% endif %}" aria-pressed="{% if product.pk in wishlisted_ids %}true{% else %}false{% endif %}">
+                <i class="bi {% if product.pk in wishlisted_ids %}bi-heart-fill{% else %}bi-heart{% endif %}" aria-hidden="true"></i> {% trans "Wishlist" %}
+              </button>
+            </form>
+            <a class="btn btn-outline-primary" href="#request-form"><i class="bi bi-chat-left-text" aria-hidden="true"></i> {% trans "Send a request" %}</a>
+          </div>
+        {% elif not user.is_authenticated %}
+          <div class="alert alert-info">
+            <a href="{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}">{% trans "Sign in" %}</a>
+            {% trans "or" %} <a href="{% url 'accounts:register' %}">{% trans "create an account" %}</a>
+            {% trans "to buy, save or send a request for this product." %}
+          </div>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          {% if product.image %}
+          <a class="btn btn-sm btn-outline-secondary" href="{% url 'products:download_image' product.slug %}"><i class="bi bi-download" aria-hidden="true"></i> {% trans "Download image" %}</a>
+          {% endif %}
+          <a class="btn btn-sm btn-outline-secondary" href="{% url 'products:download_pdf' product.slug %}"><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i> {% trans "Download product info (PDF)" %}</a>
+        </div>
+        {% endif %}
+      {% endif %}
+
+      <h2 class="h5 mt-4">{% trans "Description" %}</h2>
+      <p style="white-space: pre-line;">{{ product.description }}</p>
+    </div>
+  </div>
+
+  {# ---- Request form ---- #}
+  {% if not is_preview and user.is_authenticated and user.is_customer %}
+  <section id="request-form" class="panel mt-4" aria-labelledby="request-title">
+    <h2 id="request-title" class="h4">{% trans "Send a request to the seller" %}</h2>
+    <p class="text-muted">{% trans "Ask about availability, delivery or anything else. The seller will reply through your requests page." %}</p>
+    <form method="post" action="{% url 'requests_app:create' product.slug %}" class="row g-3" novalidate>
+      {% csrf_token %}
+      <div class="col-md-3">{% include "includes/form_field.html" with field=request_form.quantity %}</div>
+      <div class="col-md-9">{% include "includes/form_field.html" with field=request_form.message %}</div>
+      <div class="col-12"><button class="btn btn-primary" type="submit">{% trans "Send request" %}</button></div>
+    </form>
+  </section>
+  {% endif %}
+
+  {# ---- Reviews ---- #}
+  <section class="mt-5" aria-labelledby="reviews-title">
+    <h2 id="reviews-title" class="h4">{% trans "Customer reviews" %}</h2>
+    {% if can_review %}
+    <div class="panel mb-3">
+      <h3 class="h6">{% trans "Review this product" %}</h3>
+      <form method="post" action="{% url 'products:review' product.slug %}" novalidate>
+        {% csrf_token %}
+        <div class="row g-3">
+          <div class="col-md-3">{% include "includes/form_field.html" with field=review_form.rating %}</div>
+          <div class="col-md-9">{% include "includes/form_field.html" with field=review_form.comment %}</div>
+        </div>
+        <button class="btn btn-primary" type="submit">{% trans "Submit review" %}</button>
+      </form>
+    </div>
+    {% endif %}
+    {% for review in reviews %}
+    <article class="panel mb-2">
+      <div class="d-flex justify-content-between flex-wrap">
+        <strong>{{ review.customer.display_name }}</strong>
+        <span class="caption">{{ review.created_at|date:"j M Y" }}</span>
+      </div>
+      <div class="stars" role="img" aria-label="{% blocktrans with n=review.rating %}{{ n }} out of 5 stars{% endblocktrans %}">
+        {% for i in "12345" %}<i class="bi {% if forloop.counter <= review.rating %}bi-star-fill{% else %}bi-star{% endif %}" aria-hidden="true"></i>{% endfor %}
+      </div>
+      {% if review.comment %}<p class="mb-0 mt-1" style="white-space: pre-line;">{{ review.comment }}</p>{% endif %}
+    </article>
+    {% empty %}
+    <p class="text-muted">{% trans "No reviews yet." %}</p>
+    {% endfor %}
+  </section>
+
+  {# ---- Report ---- #}
+  {% if not is_preview and user.is_authenticated and user.is_customer %}
+  <section class="mt-4">
+    <details class="panel">
+      <summary class="fw-semibold"><i class="bi bi-flag" aria-hidden="true"></i> {% trans "Report this listing" %}</summary>
+      <form method="post" action="{% url 'products:report' product.slug %}" class="mt-3" novalidate>
+        {% csrf_token %}
+        {% include "includes/form.html" with form=report_form %}
+        <button class="btn btn-outline-danger" type="submit">{% trans "Submit report" %}</button>
+      </form>
+    </details>
+  </section>
+  {% endif %}
+
+  {% if related %}
+  <section class="mt-5" aria-labelledby="related-title">
+    <h2 id="related-title" class="h4 mb-3">{% trans "More in this category" %}</h2>
+    <div class="row g-3 row-cols-2 row-cols-md-4">
+      {% for product in related %}<div class="col">{% include "includes/product_card.html" %}</div>{% endfor %}
+    </div>
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

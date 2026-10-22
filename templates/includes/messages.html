@@ -1,0 +1,12 @@
+{% if messages %}
+<div class="messages" role="region" aria-label="Notifications">
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show d-flex align-items-start gap-2" role="{% if message.level >= 40 %}alert{% else %}status{% endif %}"
+       {% if message.level < 30 %}data-autodismiss{% endif %}>
+    <i class="bi {% if message.level >= 40 %}bi-exclamation-octagon{% elif message.level >= 30 %}bi-exclamation-triangle{% elif message.level >= 25 %}bi-check-circle{% else %}bi-info-circle{% endif %} mt-1" aria-hidden="true"></i>
+    <div class="flex-grow-1">{{ message }}</div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}

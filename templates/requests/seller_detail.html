@@ -1,0 +1,42 @@
+{% extends "layouts/account.html" %}
+{% load i18n %}
+{% block title %}{% trans "Request details" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% blocktrans with n=req.pk %}Request #{{ n }}{% endblocktrans %}{% endblock %}
+{% block page_actions %}<a class="btn btn-outline-secondary" href="{% url 'requests_app:seller_list' %}">{% trans "All requests" %}</a>{% endblock %}
+
+{% block account_content %}
+<div class="panel" style="max-width: 760px;">
+  <div class="d-flex flex-wrap justify-content-between gap-2 mb-3">
+    <div>
+      <div class="caption">{% trans "Product" %}</div>
+      <a class="h5" href="{% url 'products:edit' req.product.slug %}">{{ req.product.name }}</a>
+    </div>
+    {% include "includes/status_badge.html" with value=req.status label=req.get_status_display %}
+  </div>
+  <dl class="row">
+    <dt class="col-sm-3">{% trans "Customer" %}</dt><dd class="col-sm-9">{{ req.customer.display_name }}</dd>
+    <dt class="col-sm-3">{% trans "Quantity" %}</dt><dd class="col-sm-9">{{ req.quantity }} <span class="text-muted">({% blocktrans with n=req.product.quantity %}{{ n }} in stock{% endblocktrans %})</span></dd>
+    <dt class="col-sm-3">{% trans "Received" %}</dt><dd class="col-sm-9">{{ req.created_at|date:"j M Y, H:i" }}</dd>
+    <dt class="col-sm-3">{% trans "Message" %}</dt><dd class="col-sm-9" style="white-space: pre-line;">{{ req.message|default:"-" }}</dd>
+    {% if req.seller_response %}<dt class="col-sm-3">{% trans "Your reply" %}</dt><dd class="col-sm-9" style="white-space: pre-line;">{{ req.seller_response }}</dd>{% endif %}
+  </dl>
+
+  {% if req.status == 'pending' %}
+  <hr>
+  <h2 class="h5">{% trans "Respond" %}</h2>
+  <form method="post" action="{% url 'requests_app:seller_respond' req.pk %}" novalidate>
+    {% csrf_token %}
+    {% include "includes/form_field.html" with field=form.response %}
+    <button type="submit" name="action" value="accept" class="btn btn-primary">{% trans "Accept request" %}</button>
+    <button type="submit" name="action" value="reject" class="btn btn-outline-danger">{% trans "Decline" %}</button>
+  </form>
+  {% elif req.status == 'accepted' %}
+  <hr>
+  <form method="post" action="{% url 'requests_app:seller_respond' req.pk %}">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="complete">
+    <button type="submit" class="btn btn-primary">{% trans "Mark as completed" %}</button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

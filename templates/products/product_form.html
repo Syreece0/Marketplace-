@@ -1,0 +1,55 @@
+{% extends "layouts/account.html" %}
+{% load i18n static core_extras %}
+{% block title %}{% if product %}{% trans "Edit product" %}{% else %}{% trans "Add product" %}{% endif %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% if product %}{% trans "Edit product" %}{% else %}{% trans "Add product" %}{% endif %}{% endblock %}
+{% block page_actions %}<a class="btn btn-outline-secondary" href="{% url 'products:seller_list' %}">{% trans "Back to my products" %}</a>{% endblock %}
+
+{% block account_content %}
+{% if product %}
+<div class="panel mb-3 d-flex flex-wrap align-items-center gap-2">
+  <strong>{% trans "Approval status:" %}</strong>
+  {% include "includes/status_badge.html" with value=product.status label=product.get_status_display %}
+  {% if product.status == 'pending' %}<span class="text-muted">{% trans "An administrator will review this listing soon. It is not public yet." %}</span>{% endif %}
+  {% if product.status == 'rejected' %}<span class="text-danger">{% trans "Rejected:" %} {{ product.rejection_reason|default:"-" }}</span>{% endif %}
+  {% if product.status == 'published' %}<a href="{{ product.get_absolute_url }}">{% trans "View public page" %}</a>{% endif %}
+</div>
+{% endif %}
+
+<div class="panel mb-4">
+  <form method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {% include "includes/form.html" %}
+    {% if product and product.image %}
+      <p class="small text-muted">{% trans "Current main image:" %}</p>
+      <img src="{{ product.image.url }}" alt="{{ product.name }}" width="160" class="rounded mb-3" style="height:auto">
+    {% endif %}
+    <button type="submit" class="btn btn-primary">{% if product %}{% trans "Save changes" %}{% else %}{% trans "Submit for approval" %}{% endif %}</button>
+  </form>
+</div>
+
+{% if product %}
+<div class="panel">
+  <h2 class="h5">{% trans "Additional images" %}</h2>
+  {% if gallery %}
+  <div class="d-flex flex-wrap gap-3 mb-3">
+    {% for image in gallery %}
+    <figure class="mb-0 text-center">
+      <img src="{{ image.image.url }}" alt="{{ image.alt_text|default:product.name }}" width="120" height="90" class="rounded" style="object-fit:cover">
+      <form method="post" action="{% url 'products:image_delete' image.pk %}" class="mt-1" data-confirm="{% trans 'Remove this image?' %}">
+        {% csrf_token %}<button type="submit" class="btn btn-sm btn-outline-danger">{% trans "Remove" %}</button>
+      </form>
+    </figure>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-muted">{% trans "No extra images yet." %}</p>
+  {% endif %}
+  <form method="post" action="{% url 'products:image_add' product.slug %}" enctype="multipart/form-data" class="row g-2 align-items-end" novalidate>
+    {% csrf_token %}
+    <div class="col-md-5">{% include "includes/form_field.html" with field=image_form.image %}</div>
+    <div class="col-md-5">{% include "includes/form_field.html" with field=image_form.alt_text %}</div>
+    <div class="col-md-2 mb-3"><button type="submit" class="btn btn-outline-primary w-100">{% trans "Add image" %}</button></div>
+  </form>
+</div>
+{% endif %}
+{% endblock %}

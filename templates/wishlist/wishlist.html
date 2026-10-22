@@ -1,0 +1,46 @@
+{% extends "layouts/account.html" %}
+{% load i18n static core_extras %}
+{% block title %}{% trans "My wishlist" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "My wishlist" %}{% endblock %}
+
+{% block account_content %}
+{% if page_obj.object_list %}
+<div class="row g-3 row-cols-2 row-cols-md-3">
+  {% for item in page_obj %}
+  <div class="col">
+    <article class="card product-card">
+      <div class="media">
+        <a href="{{ item.product.get_absolute_url }}" tabindex="-1">
+          <img src="{% if item.product.image %}{{ item.product.image.url }}{% else %}{% static 'images/placeholder.svg' %}{% endif %}" alt="{{ item.product.name }}" loading="lazy" width="400" height="300"
+               onerror="this.onerror=null;this.src='{% static 'images/placeholder.svg' %}';">
+        </a>
+        {% if not item.product.is_public %}<span class="product-flag">{% trans "No longer listed" %}</span>
+        {% elif not item.product.in_stock %}<span class="product-flag">{% trans "Unavailable" %}</span>{% endif %}
+      </div>
+      <div class="card-body">
+        <a class="product-name" href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a>
+        <div class="caption mt-1">{{ item.product.seller.shop_name }}</div>
+        <div class="price mt-2">{{ item.product.price|money }}</div>
+        <div class="card-actions d-flex gap-2">
+          <a class="btn btn-outline-primary btn-sm flex-grow-1" href="{{ item.product.get_absolute_url }}">{% trans "View" %}</a>
+          <form method="post" action="{% url 'wishlist:remove' item.pk %}">
+            {% csrf_token %}
+            <button class="btn btn-outline-danger btn-sm" type="submit" aria-label="{% blocktrans with name=item.product.name %}Remove {{ name }} from wishlist{% endblocktrans %}"><i class="bi bi-trash" aria-hidden="true"></i></button>
+          </form>
+        </div>
+      </div>
+    </article>
+  </div>
+  {% endfor %}
+</div>
+{% include "includes/pagination.html" %}
+{% else %}
+<div class="card">
+  {% trans "Your wishlist is empty" as empty_title %}
+  {% trans "Tap the heart on any product to save it here for later." as empty_text %}
+  {% url 'products:list' as list_url %}
+  {% trans "Browse products" as empty_action %}
+  {% include "includes/empty_state.html" with icon="bi-heart" title=empty_title text=empty_text url=list_url action=empty_action %}
+</div>
+{% endif %}
+{% endblock %}
