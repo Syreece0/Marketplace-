@@ -227,8 +227,8 @@ if USE_CLOUDINARY:
             "API_KEY": _api_key,
             "API_SECRET": _api_secret,
         }
-    # "cloudinary_storage" must come before "django.contrib.staticfiles".
-    INSTALLED_APPS.insert(INSTALLED_APPS.index("django.contrib.staticfiles"), "cloudinary_storage")
+    # Only the media storage class is used. The "cloudinary_storage" app is deliberately NOT installed:
+    # it replaces collectstatic with its own version, which breaks WhiteNoise on newer Django.
     INSTALLED_APPS.append("cloudinary")
     STORAGES["default"] = {"BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage"}
     # django-cloudinary-storage still reads these two old setting names, which Django 5.1+ no
