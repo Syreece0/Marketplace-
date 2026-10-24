@@ -231,6 +231,10 @@ if USE_CLOUDINARY:
     INSTALLED_APPS.insert(INSTALLED_APPS.index("django.contrib.staticfiles"), "cloudinary_storage")
     INSTALLED_APPS.append("cloudinary")
     STORAGES["default"] = {"BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage"}
+    # django-cloudinary-storage still reads these two old setting names, which Django 5.1+ no
+    # longer defines. Providing them (same values as STORAGES above) avoids an AttributeError.
+    STATICFILES_STORAGE = STORAGES["staticfiles"]["BACKEND"]
+    DEFAULT_FILE_STORAGE = STORAGES["default"]["BACKEND"]
 
 # Uploads
 MAX_IMAGE_UPLOAD_MB = int(os.environ.get("MAX_IMAGE_UPLOAD_MB", "5"))
