@@ -210,9 +210,23 @@ STORAGES = {
 # Cloudinary: on hosts with a temporary disk (Render, Heroku...) uploaded files vanish on every
 # deploy/restart, so store them in Cloudinary instead. Enabled only when CLOUDINARY_URL is set
 # (format: cloudinary://API_KEY:API_SECRET@CLOUD_NAME).
+# Either set CLOUDINARY_URL, or the three separate variables CLOUDINARY_CLOUD_NAME,
+# CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET.
 CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL", "").strip()
+_cloud_name = os.environ.get("CLOUDINARY_CLOUD_NAME", "").strip()
+_api_key = os.environ.get("CLOUDINARY_API_KEY", "").strip()
+_api_secret = os.environ.get("CLOUDINARY_API_SECRET", "").strip()
+if not CLOUDINARY_URL and _cloud_name and _api_key and _api_secret:
+    CLOUDINARY_URL = f"cloudinary://{_api_key}:{_api_secret}@{_cloud_name}"
+    os.environ["CLOUDINARY_URL"] = CLOUDINARY_URL
 USE_CLOUDINARY = CLOUDINARY_URL.startswith("cloudinary://")
 if USE_CLOUDINARY:
+    if _cloud_name and _api_key and _api_secret:
+        CLOUDINARY_STORAGE = {
+            "CLOUD_NAME": _cloud_name,
+            "API_KEY": _api_key,
+            "API_SECRET": _api_secret,
+        }
     # "cloudinary_storage" must come before "django.contrib.staticfiles".
     INSTALLED_APPS.insert(INSTALLED_APPS.index("django.contrib.staticfiles"), "cloudinary_storage")
     INSTALLED_APPS.append("cloudinary")
