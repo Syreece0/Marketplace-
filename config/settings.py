@@ -7,7 +7,7 @@ All secrets and environment-specific values come from environment variables
 import os
 import sys
 from pathlib import Path
-import dj_database_url
+
 from django.core.exceptions import ImproperlyConfigured
 from dotenv import load_dotenv
 
@@ -69,8 +69,6 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "cloudinary_storage",
-    "cloudinary",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     # Project apps
@@ -124,7 +122,23 @@ ASGI_APPLICATION = "config.asgi.application"
 # --------------------------------------------------------------------------
 # Database
 # --------------------------------------------------------------------------
-if os.environ.get("DB_ENGINE", "sqlite").lower() in {"postgres", "postgresql"}:
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()  # Render/Heroku style connection string
+if DATABASE_URL.startswith(("postgres://", "postgresql://")):
+    from urllib.parse import unquote, urlparse
+
+    _db = urlparse(DATABASE_URL)
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": unquote(_db.path.lstrip("/")),
+            "USER": unquote(_db.username or ""),
+            "PASSWORD": unquote(_db.password or ""),
+            "HOST": _db.hostname or "localhost",
+            "PORT": str(_db.port or 5432),
+            "CONN_MAX_AGE": 60,
+        }
+    }
+elif os.environ.get("DB_ENGINE", "sqlite").lower() in {"postgres", "postgresql"}:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -138,12 +152,11 @@ if os.environ.get("DB_ENGINE", "sqlite").lower() in {"postgres", "postgresql"}:
     }
 else:
     DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-        ssl_require=bool(os.environ.get("DATABASE_URL")),
-    )
-}
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -184,26 +197,26 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT.mkdir(exist_ok=True)  # avoids a WhiteNoise warning before collectstatic is run
 
-
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
-    "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
-    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
-}
-
-MEDIA_URL = "/media/"
+MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 STORAGES = {
-    "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
-    },
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
 }
-STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+
+# Cloudinary: on hosts with a temporary disk (Render, Heroku...) uploaded files vanish on every
+# deploy/restart, so store them in Cloudinary instead. Enabled only when CLOUDINARY_URL is set
+# (format: cloudinary://API_KEY:API_SECRET@CLOUD_NAME).
+CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL", "").strip()
+USE_CLOUDINARY = CLOUDINARY_URL.startswith("cloudinary://")
+if USE_CLOUDINARY:
+    # "cloudinary_storage" must come before "django.contrib.staticfiles".
+    INSTALLED_APPS.insert(INSTALLED_APPS.index("django.contrib.staticfiles"), "cloudinary_storage")
+    INSTALLED_APPS.append("cloudinary")
+    STORAGES["default"] = {"BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage"}
 
 # Uploads
 MAX_IMAGE_UPLOAD_MB = int(os.environ.get("MAX_IMAGE_UPLOAD_MB", "5"))
