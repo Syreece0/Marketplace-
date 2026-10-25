@@ -42,6 +42,8 @@ def _call(method, path, payload=None, timeout=20):
             "Authorization": f"Bearer {secret}",
             "Content-Type": "application/json",
             "Accept": "application/json",
+            # Paystack sits behind a firewall that rejects Python's default "Python-urllib" agent.
+            "User-Agent": "Mozilla/5.0 (compatible; MarketplaceServer/1.0)",
         },
     )
     try:
