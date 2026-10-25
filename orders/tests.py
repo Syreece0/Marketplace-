@@ -221,6 +221,7 @@ class CheckoutAndPaymentTests(BaseTestCase):
         self.place_order()
         order = Order.objects.get()
         with mock.patch("orders.services.get_gateway") as gateway:
+            gateway.return_value.redirect_based = False  # simulated (non-redirect) gateway
             gateway.return_value.charge.return_value = False
             response = self.client.post(reverse("orders:pay", args=[order.pk]), follow=True)
         self.assertContains(response, "Payment failed")

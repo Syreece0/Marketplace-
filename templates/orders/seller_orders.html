@@ -20,7 +20,7 @@
   <div class="table-responsive">
     <table class="table align-middle">
       <caption class="visually-hidden">{% trans "Paid order items from your shop" %}</caption>
-      <thead><tr><th scope="col">{% trans "Order" %}</th><th scope="col">{% trans "Item" %}</th><th scope="col">{% trans "Qty" %}</th><th scope="col">{% trans "Total" %}</th><th scope="col">{% trans "Deliver to" %}</th><th scope="col">{% trans "Status" %}</th><th scope="col">{% trans "Update" %}</th></tr></thead>
+      <thead><tr><th scope="col">{% trans "Order" %}</th><th scope="col">{% trans "Item" %}</th><th scope="col">{% trans "Qty" %}</th><th scope="col">{% trans "Total" %}</th><th scope="col">{% trans "You earn" %}</th><th scope="col">{% trans "Deliver to" %}</th><th scope="col">{% trans "Status" %}</th><th scope="col">{% trans "Update" %}</th></tr></thead>
       <tbody>
         {% for item in page_obj %}
         <tr>
@@ -28,6 +28,7 @@
           <td>{{ item.product_name }}</td>
           <td>{{ item.quantity }}</td>
           <td class="text-nowrap">{{ item.line_total|money }}</td>
+          <td class="text-nowrap">{{ item.seller_earnings|money }}<div class="caption">{% blocktrans with fee=item.commission_amount|money %}after {{ fee }} commission{% endblocktrans %}</div></td>
           <td class="small">{{ item.order.shipping_name }}<br>{{ item.order.shipping_address }}, {{ item.order.shipping_city }}<br>{{ item.order.shipping_phone }}</td>
           <td>{% include "includes/status_badge.html" with value=item.fulfillment_status label=item.get_fulfillment_status_display %}</td>
           <td>

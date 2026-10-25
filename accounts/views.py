@@ -16,10 +16,13 @@ from django.utils.translation import gettext_lazy as _
 
 from core.permissions import seller_required
 from core.utils import audit_logger
+from orders import paystack
+from orders.gateways import get_gateway
 
 from .forms import (
     CustomerRegistrationForm,
     LoginForm,
+    PayoutAccountForm,
     SellerProfileForm,
     SellerRegistrationForm,
     StyledPasswordChangeForm,
@@ -124,3 +127,45 @@ def shop_settings(request):
         messages.success(request, _("Your shop settings have been saved."))
         return redirect("accounts:shop_settings")
     return render(request, "accounts/shop_settings.html", {"form": form})
+
+
+@seller_required
+def payout_settings(request):
+    """Where a seller sets the bank account their earnings are paid into."""
+    profile = request.user.seller_profile
+    enabled = get_gateway().requires_seller_payout_setup
+    context = {"profile": profile, "payouts_enabled": enabled, "form": None}
+    if not enabled:
+        return render(request, "accounts/payout_settings.html", context)
+
+    try:
+        banks = paystack.list_banks()
+    except paystack.PaystackError:
+        banks = []
+        messages.error(request, _("We could not load the list of banks. Please try again in a moment."))
+    form = PayoutAccountForm(request.POST or None, banks=banks)
+    if request.method == "POST" and form.is_valid():
+        bank_code = form.cleaned_data["bank"]
+        bank_name = dict(banks).get(bank_code, "")
+        number = form.cleaned_data["account_number"]
+        try:
+            account_name = paystack.resolve_account(number, bank_code)
+            if profile.paystack_subaccount_code:
+                code = paystack.update_subaccount(profile.paystack_subaccount_code, profile.shop_name, bank_code, number)
+            else:
+                code = paystack.create_subaccount(profile.shop_name, bank_code, number)
+        except paystack.PaystackError as error:
+            form.add_error(None, str(error))
+        else:
+            profile.bank_code, profile.bank_name = bank_code, bank_name
+            profile.account_number, profile.account_name = number, account_name
+            profile.paystack_subaccount_code = code
+            profile.save(
+                update_fields=["bank_code", "bank_name", "account_number", "account_name",
+                               "paystack_subaccount_code", "updated_at"]
+            )
+            audit_logger.info("Seller %s saved a payout account", profile.pk)
+            messages.success(request, _("Your payout account has been verified and saved."))
+            return redirect("accounts:payout_settings")
+    context["form"] = form
+    return render(request, "accounts/payout_settings.html", context)

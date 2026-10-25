@@ -63,10 +63,18 @@ def image_upload(name="photo.png", size=(40, 30), fmt="PNG"):
     return SimpleUploadedFile(name, buffer.getvalue(), content_type=f"image/{fmt.lower()}")
 
 
-@override_settings(MEDIA_ROOT=_MEDIA_ROOT)
+@override_settings(
+    MEDIA_ROOT=_MEDIA_ROOT,
+    PAYMENT_GATEWAY="test",
+    COMMISSION_PERCENT=Decimal("10"),
+    STORAGES={
+        "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+        "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
+    },
+)
 class BaseTestCase(TestCase):
     """TestCase that writes uploads to a temporary directory and has handy logins."""
-
+    
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()

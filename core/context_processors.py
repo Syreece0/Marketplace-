@@ -7,6 +7,7 @@ def site(request):
         "SITE_NAME": settings.SITE_NAME,
         "CURRENCY_SYMBOL": settings.CURRENCY_SYMBOL,
         "PAYMENT_IS_TEST": settings.PAYMENT_GATEWAY == "test",
+        "COMMISSION_PERCENT": format(settings.COMMISSION_PERCENT.normalize(), "f"),
         "unread_notifications": 0,
         "cart_count": 0,
     }

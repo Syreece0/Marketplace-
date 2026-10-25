@@ -6,6 +6,7 @@ All secrets and environment-specific values come from environment variables
 """
 import os
 import sys
+from decimal import Decimal
 from pathlib import Path
 
 from django.core.exceptions import ImproperlyConfigured
@@ -123,7 +124,9 @@ ASGI_APPLICATION = "config.asgi.application"
 # Database
 # --------------------------------------------------------------------------
 DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()  # Render/Heroku style connection string
-if DATABASE_URL.startswith(("postgres://", "postgresql://")):
+# Writing DB_ENGINE=sqlite explicitly (e.g. in a local .env) always wins over DATABASE_URL, so a
+# stray DATABASE_URL on your computer can never point local work at the live database.
+if DATABASE_URL.startswith(("postgres://", "postgresql://")) and os.environ.get("DB_ENGINE", "").strip().lower() != "sqlite":
     from urllib.parse import unquote, urlparse
 
     _db = urlparse(DATABASE_URL)
@@ -264,9 +267,19 @@ MAX_GALLERY_IMAGES = 6
 MAX_CART_ITEM_QUANTITY = 99
 
 # "test" is the built-in, clearly labelled test-payment workflow.
-PAYMENT_GATEWAY = os.environ.get("PAYMENT_GATEWAY", "test")
-PAYMENT_PUBLIC_KEY = os.environ.get("PAYMENT_PUBLIC_KEY", "")
-PAYMENT_SECRET_KEY = os.environ.get("PAYMENT_SECRET_KEY", "")
+# "test" = simulated payments (no money). "paystack" = real payments through Paystack.
+PAYMENT_GATEWAY = os.environ.get("PAYMENT_GATEWAY", "test").strip().lower()
+PAYMENT_PUBLIC_KEY = os.environ.get("PAYSTACK_PUBLIC_KEY") or os.environ.get("PAYMENT_PUBLIC_KEY", "")
+PAYMENT_SECRET_KEY = os.environ.get("PAYSTACK_SECRET_KEY") or os.environ.get("PAYMENT_SECRET_KEY", "")
+PAYSTACK_BASE_URL = "https://api.paystack.co"
+# One Paystack payment can be split between a limited number of sellers.
+PAYSTACK_MAX_SELLERS_PER_ORDER = int(os.environ.get("PAYSTACK_MAX_SELLERS_PER_ORDER", "5"))
+if PAYMENT_GATEWAY == "paystack" and not PAYMENT_SECRET_KEY and not RUNNING_TESTS:
+    raise ImproperlyConfigured("PAYMENT_GATEWAY=paystack needs PAYSTACK_SECRET_KEY to be set.")
+
+# Marketplace commission: this share of every sale goes to the administrator. The payment
+# provider's fee is paid out of this share, so sellers always receive (100 - commission)%.
+COMMISSION_PERCENT = Decimal(os.environ.get("COMMISSION_PERCENT", "10"))
 
 # --------------------------------------------------------------------------
 # Logging

@@ -1,16 +1,22 @@
+import json
+
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils.translation import gettext as _
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from core.permissions import approved_seller_required, customer_required
-from core.utils import safe_next_url
+from core.utils import audit_logger, safe_next_url
 from products.models import Product
 
-from . import services
+from . import paystack, services
 from .forms import CartUpdateForm, CheckoutForm, QuantityForm
-from .models import CartItem, Order, OrderItem
+from .gateways import get_gateway
+from .models import CartItem, Order, OrderItem, Payment
 
 
 # ----------------------------------------------------------------- cart ----
@@ -129,12 +135,60 @@ def order_detail(request, pk):
 def order_pay(request, pk):
     order = get_object_or_404(Order, pk=pk, customer=request.user)
     try:
+        if get_gateway().redirect_based:
+            # Real payment: send the customer to the provider's secure page.
+            callback = request.build_absolute_uri(reverse("orders:payment_return"))
+            return redirect(services.start_online_payment(order, callback))
         services.pay_order(order)
     except services.PaymentError as error:
         messages.error(request, str(error))
     else:
         messages.success(request, _("Payment successful. Your order is confirmed."))
     return redirect("orders:detail", pk=order.pk)
+
+
+@customer_required
+def payment_return(request):
+    """Where Paystack sends the customer back after paying. The outcome is always re-checked
+    with Paystack; nothing in this URL is trusted."""
+    reference = request.GET.get("reference") or request.GET.get("trxref") or ""
+    payment = get_object_or_404(Payment, reference=reference, order__customer=request.user)
+    try:
+        order, outcome = services.confirm_online_payment(payment.reference)
+    except services.PaymentError as error:
+        messages.warning(request, str(error))
+        return redirect("orders:detail", pk=payment.order_id)
+    if outcome == "paid":
+        messages.success(request, _("Payment successful. Your order is confirmed."))
+    elif outcome == "pending":
+        messages.info(request, _("Your payment is still being processed. This page will update once it is confirmed."))
+    else:
+        messages.error(request, _("The payment was not completed. You have not been charged. Please try again."))
+    return redirect("orders:detail", pk=order.pk)
+
+
+@csrf_exempt
+@require_POST
+def paystack_webhook(request):
+    """Server-to-server notification from Paystack. Authenticated by its HMAC signature
+    (not by CSRF/session), and the payment is re-verified with Paystack before it is trusted."""
+    if not paystack.valid_signature(request.body, request.headers.get("x-paystack-signature", "")):
+        audit_logger.warning("Rejected Paystack webhook with an invalid signature")
+        return HttpResponse(status=400)
+    try:
+        event = json.loads(request.body.decode())
+    except ValueError:
+        return HttpResponse(status=400)
+    if event.get("event") == "charge.success":
+        reference = (event.get("data") or {}).get("reference", "")
+        try:
+            services.confirm_online_payment(reference)
+        except services.PaymentError as error:
+            # Unknown reference -> acknowledge (nothing to retry); verification failure -> ask Paystack to retry.
+            if Payment.objects.filter(reference=reference).exists():
+                audit_logger.warning("Webhook for %s could not be confirmed: %s", reference, error)
+                return HttpResponse(status=503)
+    return HttpResponse(status=200)
 
 
 @customer_required

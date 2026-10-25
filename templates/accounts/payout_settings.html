@@ -1,0 +1,34 @@
+{% extends "layouts/account.html" %}
+{% load i18n core_extras %}
+{% block title %}{% trans "Payout account" %} - {{ SITE_NAME }}{% endblock %}
+{% block page_heading %}{% trans "Payout account" %}{% endblock %}
+
+{% block account_content %}
+{% if not payouts_enabled %}
+<div class="panel" style="max-width: 700px;">
+  <p class="mb-0">{% trans "Payouts are not needed right now: the marketplace is running in test-payment mode and no real money moves. This page becomes active when real payments are switched on." %}</p>
+</div>
+{% else %}
+<div class="panel mb-3" style="max-width: 700px;">
+  <h2 class="h5">{% trans "How you get paid" %}</h2>
+  <p class="mb-2">{% blocktrans with percent=COMMISSION_PERCENT %}When a customer pays, the marketplace keeps a {{ percent }}% commission and the rest of your sale is paid straight to the bank account below. Payment fees are covered by the marketplace, not deducted from you.{% endblocktrans %}</p>
+  {% if profile.can_receive_payouts %}
+    <div class="alert alert-success mb-0" role="status">
+      <strong>{% trans "Payout account saved" %}</strong><br>
+      {{ profile.account_name }} &middot; {{ profile.bank_name }} &middot; {{ profile.masked_account_number }}
+    </div>
+  {% else %}
+    <div class="alert alert-warning mb-0" role="status">{% trans "Customers cannot buy your products until you add a payout account." %}</div>
+  {% endif %}
+</div>
+<div class="panel" style="max-width: 700px;">
+  <h2 class="h5">{% if profile.can_receive_payouts %}{% trans "Change payout account" %}{% else %}{% trans "Add payout account" %}{% endif %}</h2>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include "includes/form.html" %}
+    <p class="caption">{% trans "We check the account name with your bank before saving." %}</p>
+    <button type="submit" class="btn btn-primary">{% trans "Verify and save" %}</button>
+  </form>
+</div>
+{% endif %}
+{% endblock %}

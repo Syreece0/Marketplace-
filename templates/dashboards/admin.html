@@ -14,6 +14,7 @@
   <div class="col-6 col-md-3">{% trans "Shops" as l %}{% include "includes/stat_card.html" with label=l value=seller_count icon="bi-building" %}</div>
   <div class="col-6 col-md-3">{% url 'dashboard:orders' as u %}{% trans "Orders" as l %}{% include "includes/stat_card.html" with label=l value=order_count icon="bi-receipt" url=u %}</div>
   <div class="col-6 col-md-3">{% trans "Paid revenue" as l %}{% include "includes/stat_card.html" with label=l value=revenue|money icon="bi-cash-coin" %}</div>
+  <div class="col-6 col-md-3">{% trans "Commission earned" as l %}{% include "includes/stat_card.html" with label=l value=commission|money icon="bi-percent" %}</div>
 </div>
 
 <div class="row g-3">

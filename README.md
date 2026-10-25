@@ -188,7 +188,7 @@ tests, and deliverables.
 
 Not implemented / needs your decision:
 
-- **Real payments.** Only the labelled test gateway exists. `orders/gateways.py` is the integration point.
+- **Real payments.** Paystack with a 10% commission is implemented; see `docs/PAYMENTS.md`. It is off until you set `PAYMENT_GATEWAY=paystack` and add your keys, and it has not been tried against the live Paystack service.
 - **Buyer-seller chat messaging.** The spec calls it optional ("if implementing"); product requests with a
   seller reply cover the communication. There is no `Message` model.
 - **Sections 1-14 of your specification** were not in the file I received (it began mid-way, at the end of

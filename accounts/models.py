@@ -133,3 +133,41 @@ class SellerProfile(models.Model):
     @property
     def is_approved(self):
         return self.status == SellerStatus.APPROVED
+
+
+# Payout account. Set through the verified payout page, never typed in directly.
+    bank_code = models.CharField(max_length=20, blank=True)
+    bank_name = models.CharField(_("bank"), max_length=120, blank=True)
+    account_number = models.CharField(_("account number"), max_length=20, blank=True)
+    account_name = models.CharField(_("account name"), max_length=150, blank=True)
+    paystack_subaccount_code = models.CharField(max_length=60, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["shop_name"]
+        indexes = [models.Index(fields=["status"])]
+
+    def __str__(self):
+        return self.shop_name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = unique_slugify(self, self.shop_name)
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("products:shop", kwargs={"slug": self.slug})
+
+    @property
+    def is_approved(self):
+        return self.status == SellerStatus.APPROVED
+
+    @property
+    def can_receive_payouts(self):
+        return bool(self.paystack_subaccount_code)
+
+    @property
+    def masked_account_number(self):
+        number = self.account_number or ""
+        return ("*" * max(len(number) - 4, 0)) + number[-4:]

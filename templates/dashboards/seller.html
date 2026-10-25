@@ -21,11 +21,18 @@
     <a class="btn btn-outline-primary btn-sm" href="{% url 'core:contact' %}">{% trans "Contact support" %}</a>
   </div>
 {% else %}
+  {% if payouts_required and not shop.can_receive_payouts %}
+  <div class="alert alert-warning" role="alert">
+    <strong>{% trans "Add your payout account." %}</strong>
+    {% trans "Customers cannot buy your products until you tell us where to send your earnings." %}
+    <a class="alert-link" href="{% url 'accounts:payout_settings' %}">{% trans "Add it now" %}</a>
+  </div>
+  {% endif %}
   <div class="row g-3 mb-4">
     <div class="col-6 col-md-3">{% url 'products:seller_list' as u %}{% trans "Products" as l %}{% include "includes/stat_card.html" with label=l value=product_counts.total icon="bi-box-seam" url=u %}</div>
     <div class="col-6 col-md-3">{% url 'requests_app:seller_list' as u %}{% trans "Pending requests" as l %}{% include "includes/stat_card.html" with label=l value=pending_requests icon="bi-inbox" url=u %}</div>
     <div class="col-6 col-md-3">{% url 'orders:seller_list' as u %}{% trans "To fulfil" as l %}{% include "includes/stat_card.html" with label=l value=orders_to_fulfil icon="bi-truck" url=u %}</div>
-    <div class="col-6 col-md-3">{% trans "Revenue (paid)" as l %}{% include "includes/stat_card.html" with label=l value=revenue|money icon="bi-cash-coin" %}</div>
+    <div class="col-6 col-md-3">{% trans "Your earnings" as l %}{% include "includes/stat_card.html" with label=l value=earnings|money icon="bi-cash-coin" %}</div>
   </div>
 
   <div class="row g-3">

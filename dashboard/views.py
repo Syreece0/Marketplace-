@@ -16,6 +16,7 @@ from core.permissions import admin_required, customer_required, seller_required
 from core.utils import audit_logger, safe_next_url
 from notifications.models import Notification
 from notifications.services import notify
+from orders.gateways import get_gateway
 from orders.models import CartItem, Order, OrderItem, Payment
 from products.models import Category, Product, Report, Review
 from requests_app.models import ProductRequest
@@ -27,6 +28,8 @@ User = get_user_model()
 
 
 def _page(request, queryset, per_page=15):
+    if hasattr(queryset, "ordered") and not queryset.ordered:
+        queryset = queryset.order_by("-pk")  # stable paging
     return Paginator(queryset, per_page).get_page(request.GET.get("page"))
 
 
@@ -69,11 +72,7 @@ def seller_dashboard(request):
     if profile.status == SellerStatus.APPROVED:
         products = Product.objects.filter(seller=profile)
         paid_items = OrderItem.objects.filter(seller=profile, order__status=Order.Status.PAID)
-        revenue = paid_items.aggregate(
-            total=Sum(
-                ExpressionWrapper(F("unit_price") * F("quantity"), output_field=DecimalField(max_digits=16, decimal_places=2))
-            )
-        )["total"] or Decimal("0.00")
+        earnings = paid_items.aggregate(total=Sum("seller_earnings"))["total"] or Decimal("0.00")
         context.update(
             {
                 "product_counts": {
@@ -91,7 +90,8 @@ def seller_dashboard(request):
                         OrderItem.Fulfillment.PROCESSING,
                     ]
                 ).count(),
-                "revenue": revenue,
+                "earnings": earnings,
+                "payouts_required": get_gateway().requires_seller_payout_setup,
                 "recent_requests": ProductRequest.objects.filter(seller=profile).select_related(
                     "product", "customer", "customer__profile"
                 )[:5],
@@ -117,6 +117,9 @@ def admin_dashboard(request):
         "open_reports": Report.objects.filter(status__in=[Report.Status.OPEN, Report.Status.REVIEWING]).count(),
         "order_count": Order.objects.count(),
         "revenue": paid.aggregate(total=Sum("total_amount"))["total"] or Decimal("0.00"),
+        "commission": OrderItem.objects.filter(order__status=Order.Status.PAID).aggregate(
+            total=Sum("commission_amount")
+        )["total"] or Decimal("0.00"),
         "recent_sellers": SellerProfile.objects.filter(status=SellerStatus.PENDING).select_related("user")[:5],
         "recent_products": Product.objects.filter(status=Product.Status.PENDING).select_related("seller")[:5],
         "recent_orders": Order.objects.select_related("customer")[:5],

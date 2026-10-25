@@ -143,3 +143,19 @@ class StyledSetPasswordForm(BootstrapFormMixin, SetPasswordForm):
 
 class StyledPasswordChangeForm(BootstrapFormMixin, PasswordChangeForm):
     pass
+
+class PayoutAccountForm(BootstrapFormMixin, forms.Form):
+    """Seller bank account. The name is looked up and verified with the payment provider."""
+
+    bank = forms.ChoiceField(label=_("Bank"))
+    account_number = forms.RegexField(
+        label=_("Account number"),
+        regex=r"^\d{10}$",
+        max_length=10,
+        error_messages={"invalid": _("Enter the 10-digit account number.")},
+        widget=forms.TextInput(attrs={"inputmode": "numeric", "autocomplete": "off"}),
+    )
+
+    def __init__(self, *args, banks=(), **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["bank"].choices = [("", _("Choose your bank"))] + list(banks)

@@ -27,9 +27,12 @@ class SellerProfileAdmin(admin.ModelAdmin):
     list_display = ("shop_name", "user", "status", "created_at")
     list_filter = ("status",)
     search_fields = ("shop_name", "user__username", "user__email", "business_name")
-    readonly_fields = ("slug", "created_at", "updated_at")
+    readonly_fields = (
+        "slug", "created_at", "updated_at", "bank_code", "bank_name", "account_number",
+        "account_name", "paystack_subaccount_code",
+    )
     actions = ["approve_sellers", "suspend_sellers"]
-
+    
     @admin.action(description="Approve selected sellers")
     def approve_sellers(self, request, queryset):
         queryset.update(status="approved")

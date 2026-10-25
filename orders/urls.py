@@ -14,6 +14,8 @@ urlpatterns = [
     path("orders/<int:pk>/", views.order_detail, name="detail"),
     path("orders/<int:pk>/pay/", views.order_pay, name="pay"),
     path("orders/<int:pk>/cancel/", views.order_cancel, name="cancel"),
+    path("payments/return/", views.payment_return, name="payment_return"),
+    path("payments/paystack/webhook/", views.paystack_webhook, name="paystack_webhook"),
     path("seller/orders/", views.seller_list, name="seller_list"),
     path("seller/orders/item/<int:pk>/update/", views.seller_item_update, name="seller_item_update"),
 ]

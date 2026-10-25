@@ -17,7 +17,7 @@
       {% if order.can_pay %}
       <div class="alert alert-warning" role="status">
         <p class="mb-2"><i class="bi bi-hourglass-split" aria-hidden="true"></i> {% trans "This order is waiting for payment. Items are reserved for you until it is paid or cancelled." %}</p>
-        {% if PAYMENT_IS_TEST %}<div class="test-banner mb-2">{% trans "Test mode: pressing Pay now simulates a successful payment. No real money is charged." %}</div>{% endif %}
+        {% if PAYMENT_IS_TEST %}<div class="test-banner mb-2">{% trans "Test mode: pressing Pay now simulates a successful payment. No real money is charged." %}</div>{% else %}<p class="small mb-2">{% trans "You will be taken to a secure payment page to complete your payment." %}</p>{% endif %}
         <form method="post" action="{% url 'orders:pay' order.pk %}" class="d-inline">
           {% csrf_token %}<button type="submit" class="btn btn-primary">{% trans "Pay now" %}</button>
         </form>

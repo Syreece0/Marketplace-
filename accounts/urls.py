@@ -31,4 +31,5 @@ urlpatterns = [
     path("profile/", views.profile, name="profile"),
     path("profile/edit/", views.profile_edit, name="profile_edit"),
     path("shop/settings/", views.shop_settings, name="shop_settings"),
+    path("shop/payouts/", views.payout_settings, name="payout_settings"),
 ]

@@ -54,6 +54,7 @@ class Order(models.Model):
         PENDING_PAYMENT = "pending_payment", _("Awaiting payment")
         PAID = "paid", _("Paid")
         CANCELLED = "cancelled", _("Cancelled")
+        REFUNDED = "refunded", _("Refunded")
 
     reference = models.CharField(max_length=20, unique=True, editable=False)
     customer = models.ForeignKey(
@@ -120,6 +121,11 @@ class OrderItem(models.Model):
     seller_name = models.CharField(max_length=80)
     unit_price = models.DecimalField(max_digits=12, decimal_places=2)
     quantity = models.PositiveIntegerField(validators=[MinValueValidator(1)])
+    # Commission is fixed at purchase time, like the price, so later rate changes never
+    # alter old orders. seller_earnings + commission_amount == unit_price * quantity.
+    commission_rate = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    commission_amount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    seller_earnings = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     fulfillment_status = models.CharField(
         max_length=20, choices=Fulfillment.choices, default=Fulfillment.PENDING
     )
@@ -129,6 +135,10 @@ class OrderItem(models.Model):
         constraints = [
             models.CheckConstraint(condition=Q(quantity__gte=1), name="orderitem_quantity_gte_1"),
             models.CheckConstraint(condition=Q(unit_price__gte=0), name="orderitem_price_non_negative"),
+            models.CheckConstraint(
+                condition=Q(commission_amount__gte=0) & Q(seller_earnings__gte=0),
+                name="orderitem_money_non_negative",
+            ),
         ]
         indexes = [models.Index(fields=["seller", "fulfillment_status"])]
 
