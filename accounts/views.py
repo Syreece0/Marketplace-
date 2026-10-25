@@ -140,9 +140,16 @@ def payout_settings(request):
 
     try:
         banks = paystack.list_banks()
-    except paystack.PaystackError:
+    except paystack.PaystackError as error:
         banks = []
-        messages.error(request, _("We could not load the list of banks. Please try again in a moment."))
+        messages.error(
+            request,
+            _("We could not load the list of banks (%(reason)s). Please try again in a moment.")
+            % {"reason": error},
+        )
+    else:
+        if not banks:
+            messages.error(request, _("The bank list came back empty. Please try again in a moment."))
     form = PayoutAccountForm(request.POST or None, banks=banks)
     if request.method == "POST" and form.is_valid():
         bank_code = form.cleaned_data["bank"]
@@ -150,9 +157,16 @@ def payout_settings(request):
         number = form.cleaned_data["account_number"]
         try:
             account_name = paystack.resolve_account(number, bank_code)
+            code = ""
             if profile.paystack_subaccount_code:
-                code = paystack.update_subaccount(profile.paystack_subaccount_code, profile.shop_name, bank_code, number)
-            else:
+                try:
+                    code = paystack.update_subaccount(
+                        profile.paystack_subaccount_code, profile.shop_name, bank_code, number
+                    )
+                except paystack.PaystackError:
+                    # E.g. the old code was made with test keys and live keys cannot see it.
+                    code = ""
+            if not code:
                 code = paystack.create_subaccount(profile.shop_name, bank_code, number)
         except paystack.PaystackError as error:
             form.add_error(None, str(error))
